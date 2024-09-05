@@ -1,5 +1,6 @@
 package backend.academy.Words;
 
+import backend.academy.Exceptions.StorageNotInitialized;
 import backend.academy.StaticVariables;
 import backend.academy.Utils.WordParser;
 import lombok.Getter;
@@ -13,13 +14,13 @@ public class WordsStorage {
 
     private static WordsStorage instance;
 
-    public static WordsStorage instance(String path) {
+    public static WordsStorage instance(String path) throws StorageNotInitialized {
         if (instance == null) {
             instance = new WordsStorage();
             try {
                 instance.init(path);
             } catch (FileNotFoundException e) {
-                log.error("Cannot initialize words storage", e);
+                throw new StorageNotInitialized(e.getMessage());
             }
         }
         return instance;
@@ -35,9 +36,8 @@ public class WordsStorage {
         catalog = wordParser.parse();
     }
 
-    public void reset() {
+    public static void reset() {
         instance = null;
-        catalog.clear();
     }
 
     public void addCategory(Category category) {
