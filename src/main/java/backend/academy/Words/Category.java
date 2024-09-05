@@ -11,7 +11,6 @@ public record Category(String name, Map<Level, Map<String, Word>> words) {
         words.get(level).put(word.name(), word);
     }
 
-
     public void display() {
         System.out.println(name);
     }
@@ -35,8 +34,15 @@ public record Category(String name, Map<Level, Map<String, Word>> words) {
     }
 
     public Word getRandomWord() {
-        Level level = Level.values()[(int) (Math.random() * Level.values().length)];
-        List<Word> words = getWordsByLevel(level).values().stream().toList();
+        List<Word> words = null;
+        while (true) {
+            Level level = Level.values()[(int) (Math.random() * Level.values().length)];
+            words = getWordsByLevel(level).values().stream().toList();
+            if (!words.isEmpty()) {
+                break;
+            }
+        }
+
         int index = (int) (Math.random() * words.size());
         return words.get(index);
     }
