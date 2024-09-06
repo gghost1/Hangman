@@ -14,6 +14,7 @@ public class WordsStorage {
 
     private static WordsStorage instance;
 
+
     public static WordsStorage instance(String path) throws StorageNotInitialized {
         if (instance == null) {
             instance = new WordsStorage();
@@ -38,6 +39,16 @@ public class WordsStorage {
 
     public static void reset() {
         instance = null;
+    }
+
+    public WordsStorage createOwnStorage(String path) throws StorageNotInitialized {
+        WordsStorage ownStorage = new WordsStorage();
+        try {
+            ownStorage.init(path);
+        } catch (FileNotFoundException e) {
+            throw new StorageNotInitialized(e.getMessage());
+        }
+        return ownStorage;
     }
 
     public void addCategory(Category category) {
