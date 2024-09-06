@@ -1,9 +1,12 @@
 package backend.academy.Words;
 
+import backend.academy.Exceptions.NoWordsWereFound;
 import backend.academy.StaticVariables;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Set;
 
 public record Category(String name, Map<Level, Map<String, Word>> words) {
 
@@ -27,20 +30,28 @@ public record Category(String name, Map<Level, Map<String, Word>> words) {
         return getWordsByLevel(level).get(name);
     }
 
-    public Word getRandomWordByLevel(Level level) {
-        List<Word> words = getWordsByLevel(level).values().stream().toList();
-        int index = (int) (Math.random() * words.size());
+    public Word getRandomWordByLevel(Level level, Set<String> usedWords) throws NoWordsWereFound {
+        List<Word> words = getWordsByLevel(level).values().stream().filter(word -> !usedWords.contains(word.name())).toList();
+        if (words.isEmpty()) {
+            throw new NoWordsWereFound(StaticVariables.NO_WORDS_WERE_FOUND());
+        }
+        int index = (int) (Math.random() * (words.size() - usedWords.size()));
         return words.get(index);
     }
 
-    public Word getRandomWord() {
+    public Word getRandomWord(Set<String> usedWords) throws NoWordsWereFound {
         List<Word> words = null;
+        Set<Level> levelChosen = new HashSet<>();
         while (true) {
-            Level level = Level.values()[(int) (Math.random() * Level.values().length)];
+            if (levelChosen.size() == Level.values().length) {
+                throw new NoWordsWereFound(StaticVariables.NO_WORDS_WERE_FOUND());
+            }
+            Level level = Arrays.stream(Level.values()).filter(l -> !levelChosen.contains(l)).toList().get((int) (Math.random() * (Level.values().length - levelChosen.size())));
             words = getWordsByLevel(level).values().stream().toList();
             if (!words.isEmpty()) {
                 break;
             }
+            levelChosen.add(level);
         }
 
         int index = (int) (Math.random() * words.size());

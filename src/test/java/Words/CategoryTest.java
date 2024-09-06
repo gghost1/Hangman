@@ -1,6 +1,7 @@
 package Words;
 
 import Words.datasource.StaticWordsTestVariables;
+import backend.academy.Exceptions.NoWordsWereFound;
 import backend.academy.Exceptions.StorageNotInitialized;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
@@ -15,6 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CategoryTest extends StaticWordsTestVariables {
 
@@ -49,7 +51,8 @@ public class CategoryTest extends StaticWordsTestVariables {
     public void getWordsByLevelTest() {
         assertEquals(0, ANIMAL_CATEGORY_EMPTY.getWordsByLevel(Level.EASY).size());
         assertEquals(2, ANIMAL_CATEGORY.getWordsByLevel(Level.EASY).size());
-        assertEquals("собака", ANIMAL_CATEGORY.getWordsByLevel(Level.EASY).keySet().toArray()[0]);
+        assertThat("собака").isIn(ANIMAL_CATEGORY.getWordsByLevel(Level.EASY).keySet());
+
     }
 
     @Disabled
@@ -73,20 +76,20 @@ public class CategoryTest extends StaticWordsTestVariables {
     }
 
     @Test
-    public void getRandomWordByLevelTest() {
+    public void getRandomWordByLevelTest() throws NoWordsWereFound {
         Set<Word> words = new HashSet<>();
         for (int i = 0; i < 10; i++) {
-            words.add(ANIMAL_CATEGORY.getRandomWordByLevel(Level.EASY));
+            words.add(ANIMAL_CATEGORY.getRandomWordByLevel(Level.EASY, new HashSet<>()));
         }
         assertNotEquals(words.size(), 1);
         assertNotEquals(words.size(), 0);
     }
 
     @Test
-    public void getRandomWordTest() {
+    public void getRandomWordTest() throws NoWordsWereFound {
         Set<Word> words = new HashSet<>();
         for (int i = 0; i < 10; i++) {
-            words.add(ANIMAL_CATEGORY.getRandomWord());
+            words.add(ANIMAL_CATEGORY.getRandomWord(new HashSet<>()));
         }
         assertNotEquals(words.size(), 1);
         assertNotEquals(words.size(), 0);
