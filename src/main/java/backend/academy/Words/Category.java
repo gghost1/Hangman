@@ -39,23 +39,22 @@ public record Category(String name, Map<Level, Map<String, Word>> words) {
         return words.get(index);
     }
 
-    public Word getRandomWord(Set<String> usedWords) throws NoWordsWereFound {
+    public Level getRandomLevel(Set<Level> passedLevels) throws NoWordsWereFound {
         List<Word> words = null;
-        Set<Level> levelChosen = new HashSet<>();
+        Level level = null;
+        Set<Level> levelChosen = new HashSet<>(passedLevels);
         while (true) {
             if (levelChosen.size() == Level.values().length) {
                 throw new NoWordsWereFound(StaticVariables.NO_WORDS_WERE_FOUND());
             }
-            Level level = Arrays.stream(Level.values()).filter(l -> !levelChosen.contains(l)).toList().get((int) (Math.random() * (Level.values().length - levelChosen.size())));
+            level = Arrays.stream(Level.values()).filter(l -> !levelChosen.contains(l)).toList().get((int) (Math.random() * (Level.values().length - levelChosen.size())));
             words = getWordsByLevel(level).values().stream().toList();
             if (!words.isEmpty()) {
                 break;
             }
             levelChosen.add(level);
         }
-
-        int index = (int) (Math.random() * words.size());
-        return words.get(index);
+        return level;
     }
 
 }

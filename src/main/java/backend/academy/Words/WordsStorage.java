@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -63,8 +64,8 @@ public class WordsStorage {
         return catalog.get(name);
     }
 
-    public Category getRandomCategory() {
-        return catalog.values().stream().toList().get((int) (Math.random() * catalog.size()));
+    public Category getRandomCategory(List<String> usedCategories) {
+        return catalog.values().stream().filter(category -> !usedCategories.contains(category.name())).toList().get((int) (Math.random() * (catalog.size() - usedCategories.size())));
     }
 
 }

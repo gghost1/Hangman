@@ -1,10 +1,9 @@
-package backend.academy.GameProcess;
+package backend.academy.GameProcess.Session;
 
 import backend.academy.Exceptions.StorageNotInitialized;
 import backend.academy.Words.WordsStorage;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import java.util.HashMap;
 
 @Slf4j
 @Getter
@@ -13,12 +12,13 @@ public class Session {
     private WordsStorage wordsStorage;
     private SessionState state;
 
-    private HashMap<String, String> history = new HashMap<>();
+    private SessionHistory history;
 
     public Session(String dataSourcePath) throws StorageNotInitialized {
         this.wordsStorage = WordsStorage.instance(dataSourcePath);
         this.dataSourcePath = dataSourcePath;
         state = SessionState.READY;
+        history = new SessionHistory();
     }
 
     public void chooseSpecificWordStorage(String dataSourcePath) throws StorageNotInitialized {

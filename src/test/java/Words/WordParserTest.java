@@ -22,6 +22,7 @@ public class WordParserTest extends StaticWordsTestVariables {
         assertEquals(EXPECTED1, wordsStorage.catalog());
     }
 
+    @Deprecated
     @Test
     public void parseWordsTest() throws StorageNotInitialized {
         WordsStorage wordsStorage = WordsStorage.instance(PATH2);

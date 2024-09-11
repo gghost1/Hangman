@@ -1,4 +1,4 @@
-package backend.academy.GameProcess;
+package backend.academy.GameProcess.Session;
 
 public enum SessionState {
     NOT_READY,

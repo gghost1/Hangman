@@ -2,8 +2,8 @@ package GameProcess;
 
 import Words.datasource.StaticWordsTestVariables;
 import backend.academy.Exceptions.StorageNotInitialized;
-import backend.academy.GameProcess.Session;
-import backend.academy.GameProcess.SessionState;
+import backend.academy.GameProcess.Session.Session;
+import backend.academy.GameProcess.Session.SessionState;
 import backend.academy.Words.WordsStorage;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;

@@ -2,13 +2,11 @@ package Words;
 
 import Words.datasource.StaticWordsTestVariables;
 import backend.academy.Exceptions.NoWordsWereFound;
-import backend.academy.Exceptions.StorageNotInitialized;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
 import backend.academy.Words.WordsStorage;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -55,7 +53,7 @@ public class CategoryTest extends StaticWordsTestVariables {
 
     }
 
-    @Disabled
+
     @Test
     public void displayWordsByLevelTest() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -65,7 +63,7 @@ public class CategoryTest extends StaticWordsTestVariables {
 
         ANIMAL_CATEGORY.displayWordsByLevel(Level.EASY, 0);
 
-        assertEquals("собака\r\nкошка\n", outContent.toString());
+        assertEquals("кот\r\nсобака\r\n", outContent.toString());
 
         System.setOut(originalOut);
     }
@@ -89,7 +87,7 @@ public class CategoryTest extends StaticWordsTestVariables {
     public void getRandomWordTest() throws NoWordsWereFound {
         Set<Word> words = new HashSet<>();
         for (int i = 0; i < 10; i++) {
-            words.add(ANIMAL_CATEGORY.getRandomWord(new HashSet<>()));
+            words.add(ANIMAL_CATEGORY.getRandomWordByLevel(ANIMAL_CATEGORY.getRandomLevel(new HashSet<>()), new HashSet<>()));
         }
         assertNotEquals(words.size(), 1);
         assertNotEquals(words.size(), 0);

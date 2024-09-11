@@ -2,7 +2,6 @@ package Words;
 
 import Words.datasource.StaticWordsTestVariables;
 import backend.academy.Exceptions.StorageNotInitialized;
-import backend.academy.StaticVariables;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
@@ -11,6 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -65,13 +65,12 @@ public class WordsStorageTest extends StaticWordsTestVariables {
     @Test
     public void getRandomCategoryTest() throws StorageNotInitialized {
         WordsStorage storage = WordsStorage.instance(PATH2);
-        Category actyal = storage.getRandomCategory();
+        Category actyal = storage.getRandomCategory(new ArrayList<>());
 
         assertEquals(EXPECTED2.get(actyal.name()), actyal);
-
         Set<String> actyalCategories = new HashSet<>();
         for (int i = 0; i < 20; i++) {
-            actyalCategories.add(storage.getRandomCategory().name());
+            actyalCategories.add(storage.getRandomCategory(new ArrayList<>()).name());
         }
         assertNotEquals(actyalCategories.size(), 1);
     }
