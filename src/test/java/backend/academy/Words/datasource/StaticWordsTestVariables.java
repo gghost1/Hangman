@@ -8,9 +8,9 @@ import java.util.Map;
 
 public class StaticWordsTestVariables {
 
-    protected final String PATH1 = "src/test/java/Words/datasource/testData1";
-    protected final String PATH2 = "src/test/java/Words/datasource/testData2";
-    protected final String PATH3 = "src/test/java/Words/datasource/testData3";
+    protected final String PATH1 = "src/test/java/backend/academy/Words/datasource/testData1";
+    protected final String PATH2 = "src/test/java/backend/academy/Words/datasource/testData2";
+    protected final String PATH3 = "src/test/java/backend/academy/Words/datasource/testData3";
 
     protected final Category ANIMAL_CATEGORY_EMPTY = new Category("животные", new HashMap<>(Map.of(
         Level.EASY, new HashMap<>(),
