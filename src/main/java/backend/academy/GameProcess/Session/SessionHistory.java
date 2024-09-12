@@ -3,13 +3,13 @@ package backend.academy.GameProcess.Session;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
 import it.unimi.dsi.fastutil.Pair;
-import lombok.Getter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.Getter;
 
 @Getter
 public class SessionHistory {
@@ -48,8 +48,10 @@ public class SessionHistory {
     }
 
     public Set<Level> getPassedLevelsForCategory(String category) {
-        return new HashSet<>(passedLevelsOfCategories.keySet().stream().filter(l -> passedLevelsOfCategories.get(l).contains(category)).collect(
-            Collectors.toCollection(HashSet::new)));
+        return passedLevelsOfCategories.keySet()
+            .stream()
+            .filter(l -> passedLevelsOfCategories.get(l).contains(category))
+            .collect(Collectors.toSet());
     }
 
     public List<Pair<Result, Word>> addGameResult(Result result, Word word) {

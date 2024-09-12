@@ -11,12 +11,12 @@ import backend.academy.Utils.ConsoleReader;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
@@ -45,6 +45,7 @@ public class Game {
         correctLetters = new HashSet<>();
         reader = new ConsoleReader(streamReader);
     }
+
     public Game(Session session, StringReader stringReader) {
         this.session = session;
         this.gameState = GameState.NOT_READY;
@@ -67,8 +68,8 @@ public class Game {
             this.category = session.wordsStorage().getCategoryByName(category);
             this.level = level;
             try {
-                if (session.history().passedCategories().contains(category) ||
-                    session.history().getPassedLevelsForCategory(category).contains(level)) {
+                if (session.history().passedCategories().contains(category)
+                    || session.history().getPassedLevelsForCategory(category).contains(level)) {
                     throw new AllWordsWereUsedException(StaticVariables.ALL_WORDS_WERE_USED());
                 }
                 word = this.category.getRandomWordByLevel(level, session.history().passedWords());
@@ -78,7 +79,9 @@ public class Game {
             maxMistakes = calculateMaxMistakes(level);
             mistakesLeft = maxMistakes;
             gameState = GameState.READY;
-        } else throw new NotAvailableException("Game is running");
+        } else {
+            throw new NotAvailableException(StaticVariables.GAME_IS_RUNNING());
+        }
     }
 
     public void setting(String category) throws AllWordsWereUsedException, NotAvailableException {
@@ -100,7 +103,9 @@ public class Game {
             maxMistakes = calculateMaxMistakes(level);
             mistakesLeft = maxMistakes;
             gameState = GameState.READY;
-        } else throw new NotAvailableException("Game is running");
+        } else {
+            throw new NotAvailableException(StaticVariables.GAME_IS_RUNNING());
+        }
     }
 
     public void setting() throws AllWordsWereUsedException, NotAvailableException {
@@ -113,7 +118,9 @@ public class Game {
         if (gameState == GameState.RUNNING) {
             session.history().addGameResult(result, word);
             gameState = GameState.NOT_READY;
-        } else throw new NotAvailableException("Game is not running");
+        } else {
+            throw new NotAvailableException("Game is not running");
+        }
     }
 
     public void running() throws NotAvailableException {
@@ -139,36 +146,37 @@ public class Game {
                 }
             }
 
-        } else throw new NotAvailableException("Game is not ready or already running");
+        } else {
+            throw new NotAvailableException("Game is not ready or already running");
+        }
     }
 
     private boolean isLetterGuessed(String letter) throws IncorrectInputException {
-        letter = letter.trim();
-        if (letter.isEmpty()) {
+        String localLetter = letter.trim();
+        if (localLetter.isEmpty()) {
             throw new IncorrectInputException("Letter should not be empty");
         }
-        if (letter.length() > 1) {
+        if (localLetter.length() > 1) {
             throw new IncorrectInputException("Input should contains only one letter");
         }
-        if (word.name().contains(letter)) {
-            usedLetters.add(letter);
-            correctLetters.add(letter);
+        if (word.name().contains(localLetter)) {
+            usedLetters.add(localLetter);
+            correctLetters.add(localLetter);
             return true;
         } else {
             mistakesLeft--;
-            usedLetters.add(letter);
+            usedLetters.add(localLetter);
             return false;
         }
     }
 
     private boolean isWordGuessed() {
-        for (String letter: word.name().split("")) {
+        for (String letter : word.name().split("")) {
             if (!correctLetters.contains(letter)) {
                 return false;
             }
         }
         return true;
     }
-
 
 }

@@ -1,9 +1,9 @@
 package backend.academy.Utils;
 
+import backend.academy.StaticVariables;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
-import lombok.extern.slf4j.Slf4j;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,10 +12,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class WordParser {
 
+    @SuppressWarnings("MemberName")
     private final FileReader FILE_READER;
 
     public WordParser(String path) throws FileNotFoundException {
@@ -32,13 +34,15 @@ public class WordParser {
 
             while ((line = reader.readLine()) != null) {
                 HashMap<Level, Map<String, Word>> levelMap = new HashMap<>();
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < StaticVariables.LEVEL_COUNT(); i++) {
                     levelMap.put(Level.values()[i], parseLevelLine(line));
                     line = reader.readLine();
                 }
                 Category category = new Category(categoryName, levelMap);
                 catalog.put(categoryName, category);
-                if (line == null) break;
+                if (line == null) {
+                    break;
+                }
                 categoryName = line.replace(":", "").trim().toLowerCase();
             }
 
@@ -49,9 +53,12 @@ public class WordParser {
     }
 
     private Map<String, Word> parseLevelLine(String line) {
-        if (line == null || line.split(":").length < 2) return new HashMap<>();
-        line = line.split(":")[1].trim();
-        String[] words = line.split(",");
+        String localLine = line;
+        if (localLine == null || localLine.split(":").length < 2) {
+            return new HashMap<>();
+        }
+        localLine = localLine.split(":")[1].trim();
+        String[] words = localLine.split(",");
         return Arrays.stream(words)
             .map(word -> {
                 String[] parts = word.trim().split(" ", 2);

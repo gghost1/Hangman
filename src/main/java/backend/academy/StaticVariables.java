@@ -5,6 +5,11 @@ import lombok.Getter;
 
 public class StaticVariables {
 
+    private StaticVariables() {
+    }
+
+    @Getter
+    private static final int LEVEL_COUNT = 3;
     @Getter
     private static final int PAGE_SIZE = 10;
     @Getter
@@ -13,6 +18,9 @@ public class StaticVariables {
     private static final String NO_WORDS_WERE_FOUND = "No words were found";
     @Getter
     private static final String ALL_WORDS_WERE_USED = "All words were used";
+
+    @Getter
+    private static final String GAME_IS_RUNNING = "Game is running";
 
     @Getter
     private static final int MAX_MISTAKES_FOR_EASY = 14;

@@ -3,12 +3,12 @@ package backend.academy.Words;
 import backend.academy.Exceptions.StorageNotInitializedException;
 import backend.academy.StaticVariables;
 import backend.academy.Utils.WordParser;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class WordsStorage {
@@ -57,7 +57,14 @@ public class WordsStorage {
     }
 
     public void displayCategories(int page) {
-        catalog.keySet().stream().skip((long) StaticVariables.PAGE_SIZE() * page).limit((long) StaticVariables.PAGE_SIZE() * (page + 1)).forEach(System.out::println);
+        catalog.keySet()
+            .stream()
+            .skip((long) StaticVariables.PAGE_SIZE() * page)
+            .limit((long) StaticVariables.PAGE_SIZE() * (page + 1))
+            .forEach(System.out::println);
+        /*
+        @todo: replace by front method
+         */
     }
 
     public Category getCategoryByName(String name) {
@@ -65,7 +72,11 @@ public class WordsStorage {
     }
 
     public Category getRandomCategory(List<String> usedCategories) {
-        return catalog.values().stream().filter(category -> !usedCategories.contains(category.name())).toList().get((int) (Math.random() * (catalog.size() - usedCategories.size())));
+        return catalog.values()
+            .stream()
+            .filter(category -> !usedCategories.contains(category.name()))
+            .toList()
+            .get((int) (Math.random() * (catalog.size() - usedCategories.size())));
     }
 
 }
