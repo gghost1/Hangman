@@ -1,6 +1,6 @@
 package backend.academy.Words;
 
-import backend.academy.Exceptions.NoWordsWereFound;
+import backend.academy.Exceptions.NoWordsWereFoundException;
 import backend.academy.StaticVariables;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -30,22 +30,22 @@ public record Category(String name, Map<Level, Map<String, Word>> words) {
         return getWordsByLevel(level).get(name);
     }
 
-    public Word getRandomWordByLevel(Level level, Set<String> usedWords) throws NoWordsWereFound {
+    public Word getRandomWordByLevel(Level level, Set<String> usedWords) throws NoWordsWereFoundException {
         List<Word> words = getWordsByLevel(level).values().stream().filter(word -> !usedWords.contains(word.name())).toList();
         if (words.isEmpty()) {
-            throw new NoWordsWereFound(StaticVariables.NO_WORDS_WERE_FOUND());
+            throw new NoWordsWereFoundException(StaticVariables.NO_WORDS_WERE_FOUND());
         }
         int index = (int) (Math.random() * (words.size() - usedWords.size()));
         return words.get(index);
     }
 
-    public Level getRandomLevel(Set<Level> passedLevels) throws NoWordsWereFound {
+    public Level getRandomLevel(Set<Level> passedLevels) throws NoWordsWereFoundException {
         List<Word> words = null;
         Level level = null;
         Set<Level> levelChosen = new HashSet<>(passedLevels);
         while (true) {
             if (levelChosen.size() == Level.values().length) {
-                throw new NoWordsWereFound(StaticVariables.NO_WORDS_WERE_FOUND());
+                throw new NoWordsWereFoundException(StaticVariables.NO_WORDS_WERE_FOUND());
             }
             level = Arrays.stream(Level.values()).filter(l -> !levelChosen.contains(l)).toList().get((int) (Math.random() * (Level.values().length - levelChosen.size())));
             words = getWordsByLevel(level).values().stream().toList();

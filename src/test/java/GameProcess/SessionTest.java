@@ -1,7 +1,7 @@
 package GameProcess;
 
 import Words.datasource.StaticWordsTestVariables;
-import backend.academy.Exceptions.StorageNotInitialized;
+import backend.academy.Exceptions.StorageNotInitializedException;
 import backend.academy.GameProcess.Session.Session;
 import backend.academy.GameProcess.Session.SessionState;
 import backend.academy.Words.WordsStorage;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     }
 
     @Test
-    public void sessionCreationTest() throws StorageNotInitialized {
+    public void sessionCreationTest() throws StorageNotInitializedException {
         WordsStorage wordsStorage = WordsStorage.instance(PATH1);
         Session session = new Session(PATH1);
 
@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     }
 
     @Test
-    public void chooseSpecificWordStoragePositiveTest() throws StorageNotInitialized {
+    public void chooseSpecificWordStoragePositiveTest() throws StorageNotInitializedException {
         WordsStorage wordsStorage = WordsStorage.instance(PATH1);
         Session session = new Session(PATH1);
         assertEquals(wordsStorage, session.wordsStorage());
@@ -46,14 +46,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     }
 
     @Test
-    public void chooseSpecificWordStorageNegativeTest() throws StorageNotInitialized {
+    public void chooseSpecificWordStorageNegativeTest() throws StorageNotInitializedException {
         WordsStorage wordsStorage = WordsStorage.instance(PATH1);
         Session session = new Session(PATH1);
         assertEquals(wordsStorage, session.wordsStorage());
 
         try {
             session.chooseSpecificWordStorage(PATH3);
-        } catch (StorageNotInitialized _) {
+        } catch (StorageNotInitializedException _) {
 
         }
         assertEquals(wordsStorage, session.wordsStorage());

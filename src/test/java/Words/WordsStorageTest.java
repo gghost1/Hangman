@@ -1,7 +1,7 @@
 package Words;
 
 import Words.datasource.StaticWordsTestVariables;
-import backend.academy.Exceptions.StorageNotInitialized;
+import backend.academy.Exceptions.StorageNotInitializedException;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
@@ -26,7 +26,7 @@ public class WordsStorageTest extends StaticWordsTestVariables {
     }
 
     @Test
-    public void addCategoryTest() throws StorageNotInitialized {
+    public void addCategoryTest() throws StorageNotInitializedException {
         WordsStorage storage = WordsStorage.instance(PATH1);
 
         Category categoryToAdd = new Category("test", Map.of(
@@ -42,7 +42,7 @@ public class WordsStorageTest extends StaticWordsTestVariables {
     }
 
     @Test
-    public void displayCategoriesTest() throws StorageNotInitialized {
+    public void displayCategoriesTest() throws StorageNotInitializedException {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
 
@@ -57,13 +57,13 @@ public class WordsStorageTest extends StaticWordsTestVariables {
     }
 
     @Test
-    public void getCategoryByNameTest() throws StorageNotInitialized {
+    public void getCategoryByNameTest() throws StorageNotInitializedException {
         WordsStorage storage = WordsStorage.instance(PATH2);
         assertEquals(FOOD_CATEGORY, storage.getCategoryByName("еда"));
     }
 
     @Test
-    public void getRandomCategoryTest() throws StorageNotInitialized {
+    public void getRandomCategoryTest() throws StorageNotInitializedException {
         WordsStorage storage = WordsStorage.instance(PATH2);
         Category actyal = storage.getRandomCategory(new ArrayList<>());
 

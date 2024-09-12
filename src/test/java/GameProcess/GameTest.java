@@ -1,8 +1,9 @@
 package GameProcess;
 
 import Words.datasource.StaticWordsTestVariables;
-import backend.academy.Exceptions.AllWordsWereUsed;
-import backend.academy.Exceptions.StorageNotInitialized;
+import backend.academy.Exceptions.AllWordsWereUsedException;
+import backend.academy.Exceptions.NotAvailableException;
+import backend.academy.Exceptions.StorageNotInitializedException;
 import backend.academy.GameProcess.Game.Game;
 import backend.academy.GameProcess.Game.GameState;
 import backend.academy.GameProcess.Session.Session;
@@ -12,6 +13,7 @@ import backend.academy.Words.WordsStorage;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import java.io.InputStreamReader;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,20 +25,21 @@ public class GameTest extends StaticWordsTestVariables {
         WordsStorage.reset();
     }
 
-    private Game createGame() throws StorageNotInitialized {
+    private Game createGame() throws StorageNotInitializedException {
         Session session = new Session(PATH2);
-        return new Game(session);
+        return new Game(session, new InputStreamReader(System.in));
     }
 
     @Test
-    public void creationGameTest() throws StorageNotInitialized {
+    public void creationGameTest() throws StorageNotInitializedException {
         Game game = createGame();
 
-        assertEquals(GameState.SETTING, game.gameState());
+        assertEquals(GameState.NOT_READY, game.gameState());
     }
 
     @Test
-    public void settingWithCategoryAndLevelTest() throws StorageNotInitialized, AllWordsWereUsed {
+    public void settingWithCategoryAndLevelTest() throws StorageNotInitializedException, AllWordsWereUsedException,
+        NotAvailableException {
         Game game = createGame();
 
         game.setting(ANIMAL_CATEGORY.name(), Level.EASY);
@@ -49,7 +52,7 @@ public class GameTest extends StaticWordsTestVariables {
     }
 
     @Test
-    public void settingWithCategoryTest() throws StorageNotInitialized, AllWordsWereUsed {
+    public void settingWithCategoryTest() throws StorageNotInitializedException, AllWordsWereUsedException, NotAvailableException {
         Game game = createGame();
 
         game.setting(ANIMAL_CATEGORY.name());
@@ -60,7 +63,7 @@ public class GameTest extends StaticWordsTestVariables {
     }
 
     @Test
-    public void settingTest() throws StorageNotInitialized, AllWordsWereUsed {
+    public void settingTest() throws StorageNotInitializedException, AllWordsWereUsedException, NotAvailableException {
         Game game = createGame();
 
         game.setting();

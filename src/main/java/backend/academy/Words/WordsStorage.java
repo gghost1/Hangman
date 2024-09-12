@@ -1,6 +1,6 @@
 package backend.academy.Words;
 
-import backend.academy.Exceptions.StorageNotInitialized;
+import backend.academy.Exceptions.StorageNotInitializedException;
 import backend.academy.StaticVariables;
 import backend.academy.Utils.WordParser;
 import lombok.Getter;
@@ -16,13 +16,13 @@ public class WordsStorage {
     private static WordsStorage instance;
 
 
-    public static WordsStorage instance(String path) throws StorageNotInitialized {
+    public static WordsStorage instance(String path) throws StorageNotInitializedException {
         if (instance == null) {
             instance = new WordsStorage();
             try {
                 instance.init(path);
             } catch (FileNotFoundException e) {
-                throw new StorageNotInitialized(e.getMessage());
+                throw new StorageNotInitializedException(e.getMessage());
             }
         }
         return instance;
@@ -42,12 +42,12 @@ public class WordsStorage {
         instance = null;
     }
 
-    public WordsStorage createOwnStorage(String path) throws StorageNotInitialized {
+    public WordsStorage createOwnStorage(String path) throws StorageNotInitializedException {
         WordsStorage ownStorage = new WordsStorage();
         try {
             ownStorage.init(path);
         } catch (FileNotFoundException e) {
-            throw new StorageNotInitialized(e.getMessage());
+            throw new StorageNotInitializedException(e.getMessage());
         }
         return ownStorage;
     }

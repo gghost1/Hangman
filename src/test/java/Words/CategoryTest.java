@@ -1,7 +1,7 @@
 package Words;
 
 import Words.datasource.StaticWordsTestVariables;
-import backend.academy.Exceptions.NoWordsWereFound;
+import backend.academy.Exceptions.NoWordsWereFoundException;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
@@ -74,7 +74,7 @@ public class CategoryTest extends StaticWordsTestVariables {
     }
 
     @Test
-    public void getRandomWordByLevelTest() throws NoWordsWereFound {
+    public void getRandomWordByLevelTest() throws NoWordsWereFoundException {
         Set<Word> words = new HashSet<>();
         for (int i = 0; i < 10; i++) {
             words.add(ANIMAL_CATEGORY.getRandomWordByLevel(Level.EASY, new HashSet<>()));
@@ -84,7 +84,7 @@ public class CategoryTest extends StaticWordsTestVariables {
     }
 
     @Test
-    public void getRandomWordTest() throws NoWordsWereFound {
+    public void getRandomWordTest() throws NoWordsWereFoundException {
         Set<Word> words = new HashSet<>();
         for (int i = 0; i < 10; i++) {
             words.add(ANIMAL_CATEGORY.getRandomWordByLevel(ANIMAL_CATEGORY.getRandomLevel(new HashSet<>()), new HashSet<>()));
