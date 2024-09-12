@@ -1,6 +1,8 @@
 package backend.academy.GameProcess.Session;
 
 import backend.academy.Words.Level;
+import backend.academy.Words.Word;
+import it.unimi.dsi.fastutil.Pair;
 import lombok.Getter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,12 +16,14 @@ public class SessionHistory {
     private final List<String> passedCategories;
     private final HashMap<Level, List<String>> passedLevelsOfCategories;
     private final HashSet<String> passedWords;
+    private final List<Pair<Result, Word>> results;
 
     public SessionHistory() {
         passedCategories = new ArrayList<>();
         passedLevelsOfCategories = new HashMap<>();
         init();
         passedWords = new HashSet<>();
+        results = new ArrayList<>();
     }
 
     private void init() {
@@ -46,6 +50,11 @@ public class SessionHistory {
     public Set<Level> getPassedLevelsForCategory(String category) {
         return new HashSet<>(passedLevelsOfCategories.keySet().stream().filter(l -> passedLevelsOfCategories.get(l).contains(category)).collect(
             Collectors.toCollection(HashSet::new)));
+    }
+
+    public List<Pair<Result, Word>> addGameResult(Result result, Word word) {
+        results.add(Pair.of(result, word));
+        return results;
     }
 
 }
