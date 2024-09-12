@@ -1,6 +1,6 @@
-package GameProcess;
+package backend.academy.GameProcess;
 
-import Words.datasource.StaticWordsTestVariables;
+import backend.academy.Words.datasource.StaticWordsTestVariables;
 import backend.academy.Exceptions.AllWordsWereUsedException;
 import backend.academy.Exceptions.NotAvailableException;
 import backend.academy.Exceptions.StorageNotInitializedException;

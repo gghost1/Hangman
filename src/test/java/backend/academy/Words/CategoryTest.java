@@ -1,11 +1,7 @@
-package Words;
+package backend.academy.Words;
 
-import Words.datasource.StaticWordsTestVariables;
+import backend.academy.Words.datasource.StaticWordsTestVariables;
 import backend.academy.Exceptions.NoWordsWereFoundException;
-import backend.academy.Words.Category;
-import backend.academy.Words.Level;
-import backend.academy.Words.Word;
-import backend.academy.Words.WordsStorage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

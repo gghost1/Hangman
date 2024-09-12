@@ -1,6 +1,6 @@
-package GameProcess;
+package backend.academy.GameProcess;
 
-import Words.datasource.StaticWordsTestVariables;
+import backend.academy.Words.datasource.StaticWordsTestVariables;
 import backend.academy.Exceptions.StorageNotInitializedException;
 import backend.academy.GameProcess.Session.Session;
 import backend.academy.GameProcess.Session.SessionState;

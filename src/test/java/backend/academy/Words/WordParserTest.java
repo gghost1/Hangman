@@ -1,8 +1,7 @@
-package Words;
+package backend.academy.Words;
 
-import Words.datasource.StaticWordsTestVariables;
+import backend.academy.Words.datasource.StaticWordsTestVariables;
 import backend.academy.Exceptions.StorageNotInitializedException;
-import backend.academy.Words.WordsStorage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;

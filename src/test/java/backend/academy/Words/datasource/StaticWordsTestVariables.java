@@ -1,4 +1,4 @@
-package Words.datasource;
+package backend.academy.Words.datasource;
 
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;

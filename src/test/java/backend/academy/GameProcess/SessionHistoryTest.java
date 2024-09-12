@@ -1,6 +1,6 @@
-package GameProcess;
+package backend.academy.GameProcess;
 
-import Words.datasource.StaticWordsTestVariables;
+import backend.academy.Words.datasource.StaticWordsTestVariables;
 import backend.academy.GameProcess.Session.SessionHistory;
 import backend.academy.Words.Level;
 import lombok.extern.slf4j.Slf4j;
