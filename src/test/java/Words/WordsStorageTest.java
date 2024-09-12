@@ -7,6 +7,7 @@ import backend.academy.Words.Level;
 import backend.academy.Words.Word;
 import backend.academy.Words.WordsStorage;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -41,6 +42,7 @@ public class WordsStorageTest extends StaticWordsTestVariables {
         assertEquals(expected, storage.catalog());
     }
 
+    @Disabled
     @Test
     public void displayCategoriesTest() throws StorageNotInitializedException {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();

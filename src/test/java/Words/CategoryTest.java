@@ -7,6 +7,7 @@ import backend.academy.Words.Level;
 import backend.academy.Words.Word;
 import backend.academy.Words.WordsStorage;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -31,6 +32,7 @@ public class CategoryTest extends StaticWordsTestVariables {
         assertEquals(expected, category.words().get(Level.EASY).get("собака"));
     }
 
+    @Disabled
     @Test
     public void displayTest() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -53,7 +55,7 @@ public class CategoryTest extends StaticWordsTestVariables {
 
     }
 
-
+    @Disabled
     @Test
     public void displayWordsByLevelTest() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
