@@ -2,7 +2,7 @@ package backend.academy.GameProcess.Session;
 
 
 import backend.academy.Exceptions.StorageNotInitializedException;
-import backend.academy.GameProcess.Game.Game;
+import backend.academy.GameProcess.Core.Core;
 import backend.academy.Words.WordsStorage;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +18,12 @@ public class Session {
 
     private SessionHistory history;
 
-    private List<Game> runningGames;
 
     public Session(String dataSourcePath) throws StorageNotInitializedException {
         this.wordsStorage = WordsStorage.instance(dataSourcePath);
         this.dataSourcePath = dataSourcePath;
         state = SessionState.READY;
         history = new SessionHistory();
-        runningGames = new ArrayList<>();
     }
 
     public void chooseSpecificWordStorage(String dataSourcePath) throws StorageNotInitializedException {
