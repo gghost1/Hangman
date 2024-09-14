@@ -5,15 +5,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 
-public class ConsoleReader {
+public class Reader {
 
     private final BufferedReader reader;
 
-    public ConsoleReader(InputStreamReader streamReader) {
+    public Reader(InputStreamReader streamReader) {
         reader = new BufferedReader(streamReader);
     }
 
-    public ConsoleReader(StringReader stringReader) {
+    public Reader(StringReader stringReader) {
         reader = new BufferedReader(stringReader);
     }
 

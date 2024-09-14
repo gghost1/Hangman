@@ -1,13 +1,14 @@
-package backend.academy.GameProcess.Game;
+package backend.academy.GameProcess.Core;
 
 import backend.academy.Exceptions.AllWordsWereUsedException;
 import backend.academy.Exceptions.IncorrectInputException;
 import backend.academy.Exceptions.NoWordsWereFoundException;
 import backend.academy.Exceptions.NotAvailableException;
+import backend.academy.GameProcess.FrontEnd.GameDisplay;
 import backend.academy.GameProcess.Session.Result;
 import backend.academy.GameProcess.Session.Session;
 import backend.academy.StaticVariables;
-import backend.academy.Utils.ConsoleReader;
+import backend.academy.Utils.Reader;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
@@ -20,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
-public class Game {
+public class Core {
 
     private Session session;
     private GameState gameState;
@@ -32,27 +33,35 @@ public class Game {
 
     private Set<String> usedLetters;
     private Set<String> correctLetters;
-    private String drawer; // specific class will be created
+    private final GameDisplay gameDisplay;
     private int mistakesLeft;
 
-    private final ConsoleReader reader;
+    private final Reader reader;
 
-    public Game(Session session, InputStreamReader streamReader) {
+    public Core(Session session, InputStreamReader streamReader) {
         this.session = session;
         this.gameState = GameState.NOT_READY;
 
         usedLetters = new HashSet<>();
         correctLetters = new HashSet<>();
-        reader = new ConsoleReader(streamReader);
+        reader = new Reader(streamReader);
+        gameDisplay = null;
+        /*
+        @todo: display = new Display();
+         */
     }
 
-    public Game(Session session, StringReader stringReader) {
+    public Core(Session session, StringReader stringReader) {
         this.session = session;
         this.gameState = GameState.NOT_READY;
 
         usedLetters = new HashSet<>();
         correctLetters = new HashSet<>();
-        reader = new ConsoleReader(stringReader);
+        reader = new Reader(stringReader);
+        gameDisplay = null;
+        /*
+        @todo: display = new Display();
+         */
     }
 
     private int calculateMaxMistakes(Level level) {

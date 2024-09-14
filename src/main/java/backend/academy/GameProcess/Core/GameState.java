@@ -1,4 +1,4 @@
-package backend.academy.GameProcess.Game;
+package backend.academy.GameProcess.Core;
 
 public enum GameState {
     READY,
