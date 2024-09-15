@@ -12,6 +12,7 @@ public class EngGameOutput implements GameOutput {
     private final String GAME;
     private final String HINT;
     private final String LOSE;
+    private final String WIN;
     private final Set<String> ALPHABET;
 
     private final List<String> INIT_IMAGE;
@@ -22,6 +23,7 @@ public class EngGameOutput implements GameOutput {
         GAME = "Game ";
         HINT = "Hint: ";
         LOSE = "You lose. The word was: ";
+        WIN = "You win!";
         ALPHABET = new HashSet<>();
         for (char c = 'a'; c <= 'z'; c++) {
             ALPHABET.add(c + "");
@@ -82,5 +84,11 @@ public class EngGameOutput implements GameOutput {
     public String lose() {
         return LOSE;
     }
+
+    @Override
+    public String win() {
+        return WIN;
+    }
+
 }
 

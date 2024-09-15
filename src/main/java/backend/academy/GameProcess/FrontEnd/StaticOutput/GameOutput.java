@@ -11,4 +11,5 @@ public interface GameOutput {
     Set<String> alphabet();
     List<Pair<Integer, String>> replacements();
     String lose();
+    String win();
 }

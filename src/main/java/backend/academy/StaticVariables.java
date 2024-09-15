@@ -23,11 +23,11 @@ public class StaticVariables {
     private static final String GAME_IS_RUNNING = "Game is running";
 
     @Getter
-    private static final int MAX_MISTAKES_FOR_EASY = 14;
+    private static final int MAX_MISTAKES_FOR_EASY = 1;
     @Getter
-    private static final int MAX_MISTAKES_FOR_MEDIUM = 14;
+    private static final int MAX_MISTAKES_FOR_MEDIUM = 2;
     @Getter
-    private static final int MAX_MISTAKES_FOR_HARD = 14;
+    private static final int MAX_MISTAKES_FOR_HARD = 4;
 
     public static int getMaxMistakes(Level level) {
         return switch (level) {

@@ -1,5 +1,6 @@
 package backend.academy.GameProcess.FrontEnd;
 
+import backend.academy.Exceptions.IncorrectInputException;
 import backend.academy.GameProcess.FrontEnd.StaticOutput.GameOutput;
 import backend.academy.GameProcess.FrontEnd.StaticOutput.EngGameOutput;
 import backend.academy.Utils.Output;
@@ -35,6 +36,8 @@ public class GameDisplay extends Output {
         this.stepStage = stepStage;
 
         currentImage = gameOutput.initImage();
+
+        output();
     }
 
     public GameDisplay(FileWriter fileWriter, Word word, int stepStage) {
@@ -48,6 +51,8 @@ public class GameDisplay extends Output {
         this.stepStage = stepStage;
 
         currentImage = gameOutput.initImage();
+
+        output();
     }
 
     public void update(boolean isMistake, Set<String> usedLetters, Set<String> guessedLetters) {
@@ -96,9 +101,22 @@ public class GameDisplay extends Output {
         flush();
     }
 
+    public void exception(Exception e) {
+        output();
+        if (e instanceof IncorrectInputException) {
+            writeOutput(e.getMessage());
+        }
+        flush();
+    }
+
     private void outputLose() {
         writeOutput(gameOutput.lose(), false, "");
         writeOutput(word.name());
+        flush();
+    }
+
+    public void outputWin() {
+        writeOutput(gameOutput.win(), false, "");
         flush();
     }
 

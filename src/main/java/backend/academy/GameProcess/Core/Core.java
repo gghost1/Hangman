@@ -13,6 +13,7 @@ import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,11 +30,11 @@ public class Core {
     private Level level;
     private Category category;
     private Word word;
-    private int maxMistakes;
+    private int mistakeStep;
 
     private Set<String> usedLetters;
     private Set<String> correctLetters;
-    private final GameDisplay gameDisplay;
+    private GameDisplay gameDisplay;
     private int mistakesLeft;
 
     private final Reader reader;
@@ -45,10 +46,6 @@ public class Core {
         usedLetters = new HashSet<>();
         correctLetters = new HashSet<>();
         reader = new Reader(streamReader);
-        gameDisplay = null;
-        /*
-        @todo: display = new Display();
-         */
     }
 
     public Core(Session session, StringReader stringReader) {
@@ -58,10 +55,6 @@ public class Core {
         usedLetters = new HashSet<>();
         correctLetters = new HashSet<>();
         reader = new Reader(stringReader);
-        gameDisplay = null;
-        /*
-        @todo: display = new Display();
-         */
     }
 
     private int calculateMaxMistakes(Level level) {
@@ -85,8 +78,8 @@ public class Core {
             } catch (NoWordsWereFoundException e) {
                 log.error(e.getMessage(), e);
             }
-            maxMistakes = calculateMaxMistakes(level);
-            mistakesLeft = maxMistakes;
+            mistakeStep = calculateMaxMistakes(level);
+            mistakesLeft = 8/ mistakeStep;
             gameState = GameState.READY;
         } else {
             throw new NotAvailableException(StaticVariables.GAME_IS_RUNNING());
@@ -109,8 +102,8 @@ public class Core {
                 log.error(e.getMessage(), e);
             }
 
-            maxMistakes = calculateMaxMistakes(level);
-            mistakesLeft = maxMistakes;
+            mistakeStep = calculateMaxMistakes(level);
+            mistakesLeft = 8/ mistakeStep;
             gameState = GameState.READY;
         } else {
             throw new NotAvailableException(StaticVariables.GAME_IS_RUNNING());
@@ -125,6 +118,7 @@ public class Core {
 
     private void stop(Result result) throws NotAvailableException {
         if (gameState == GameState.RUNNING) {
+            gameDisplay.outputWin();
             session.history().addGameResult(result, word);
             gameState = GameState.NOT_READY;
         } else {
@@ -134,27 +128,26 @@ public class Core {
 
     public void running() throws NotAvailableException {
         if (gameState == GameState.READY) {
+            gameDisplay = new GameDisplay(new OutputStreamWriter(System.out), word, calculateMaxMistakes(level));
             gameState = GameState.RUNNING;
-            // write front
             while (mistakesLeft > 0) {
-
                 String letter = reader().readInput();
                 try {
                     if (isLetterGuessed(letter)) {
                         if (isWordGuessed()) {
-                            // write front
+                            gameDisplay.update(false, usedLetters, correctLetters);
+                            stop(Result.WIN);
                             break;
                         } else {
-                            // write front
+                            gameDisplay.update(false, usedLetters, correctLetters);
                         }
                     } else {
-                        // write front
+                        gameDisplay.update(true, usedLetters, correctLetters);
                     }
                 } catch (IncorrectInputException ex) {
-                    // write front
+                    gameDisplay.exception(ex);
                 }
             }
-
         } else {
             throw new NotAvailableException("Game is not ready or already running");
         }
@@ -168,13 +161,15 @@ public class Core {
         if (localLetter.length() > 1) {
             throw new IncorrectInputException("Input should contains only one letter");
         }
+        if (usedLetters.contains(localLetter)) {
+            throw new IncorrectInputException("Letter already used");
+        }
+        usedLetters.add(localLetter);
         if (word.name().contains(localLetter)) {
-            usedLetters.add(localLetter);
             correctLetters.add(localLetter);
             return true;
         } else {
-            mistakesLeft--;
-            usedLetters.add(localLetter);
+            mistakesLeft-= mistakeStep;
             return false;
         }
     }

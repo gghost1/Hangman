@@ -47,7 +47,7 @@ public class CoreTest extends StaticWordsTestVariables {
         assertEquals(Level.EASY, core.level());
         assertEquals(core.session().wordsStorage().getCategoryByName(ANIMAL_CATEGORY.name()), core.category());
         assertThat(core.word()).isIn(core.category().getWordsByLevel(Level.EASY).values());
-        assertEquals(StaticVariables.MAX_MISTAKES_FOR_EASY(), core.maxMistakes());
+        assertEquals(StaticVariables.MAX_MISTAKES_FOR_EASY(), core.mistakeStep());
         assertEquals(StaticVariables.MAX_MISTAKES_FOR_EASY(), core.mistakesLeft());
     }
 
@@ -58,7 +58,7 @@ public class CoreTest extends StaticWordsTestVariables {
         core.setting(ANIMAL_CATEGORY.name());
         assertEquals(core.session().wordsStorage().getCategoryByName(ANIMAL_CATEGORY.name()), core.category());
         assertThat(core.word()).isIn(core.category().getWordsByLevel(core.level()).values());
-        assertEquals(StaticVariables.getMaxMistakes(core.level()), core.maxMistakes());
+        assertEquals(StaticVariables.getMaxMistakes(core.level()), core.mistakeStep());
         assertEquals(StaticVariables.getMaxMistakes(core.level()), core.mistakesLeft());
     }
 
@@ -68,7 +68,7 @@ public class CoreTest extends StaticWordsTestVariables {
 
         core.setting();
         assertThat(core.word()).isIn(core.category().getWordsByLevel(core.level()).values());
-        assertEquals(StaticVariables.getMaxMistakes(core.level()), core.maxMistakes());
+        assertEquals(StaticVariables.getMaxMistakes(core.level()), core.mistakeStep());
         assertEquals(StaticVariables.getMaxMistakes(core.level()), core.mistakesLeft());
     }
 
