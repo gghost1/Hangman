@@ -5,18 +5,15 @@ import org.fusesource.jansi.AnsiConsole;
 import java.io.FileWriter;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.List;
 import java.util.function.Function;
 
 public class Output {
     private final PrintWriter writer;
 
-    public Output(OutputStreamWriter outputStreamWriter) {
-        this.writer = new PrintWriter(outputStreamWriter);
-    }
-
-    public Output(FileWriter fileWriter) {
-        this.writer = new PrintWriter(fileWriter);
+    public Output(Writer writer) {
+        this.writer = new PrintWriter(writer);
     }
 
     protected void writeOutput(String output, boolean newLine, String splitter) {

@@ -14,6 +14,7 @@ public class EngGameOutput implements GameOutput {
     private final String LOSE;
     private final String WIN;
     private final Set<String> ALPHABET;
+    private final List<String> LEVELS;
 
     private final List<String> INIT_IMAGE;
 
@@ -28,6 +29,13 @@ public class EngGameOutput implements GameOutput {
         for (char c = 'a'; c <= 'z'; c++) {
             ALPHABET.add(c + "");
         }
+        LEVELS = new ArrayList<>(){
+            {
+                add("Easy");
+                add("Medium");
+                add("Hard");
+            }
+        };
         INIT_IMAGE = new ArrayList<>(){
             {
                 add("|------   ");
@@ -88,6 +96,11 @@ public class EngGameOutput implements GameOutput {
     @Override
     public String win() {
         return WIN;
+    }
+
+    @Override
+    public List<String> levels() {
+        return LEVELS;
     }
 
 }

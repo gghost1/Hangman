@@ -15,6 +15,7 @@ import backend.academy.Words.Word;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
+import java.io.Writer;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
@@ -38,24 +39,18 @@ public class Core {
     private int mistakesLeft;
 
     private final Reader reader;
+    private final Writer writer;
 
-    public Core(Session session, InputStreamReader streamReader) {
+    public Core(Session session) {
         this.session = session;
         this.gameState = GameState.NOT_READY;
 
         usedLetters = new HashSet<>();
         correctLetters = new HashSet<>();
-        reader = new Reader(streamReader);
+        this.reader = new Reader(session.readerIO());
+        this.writer = session.writer();
     }
 
-    public Core(Session session, StringReader stringReader) {
-        this.session = session;
-        this.gameState = GameState.NOT_READY;
-
-        usedLetters = new HashSet<>();
-        correctLetters = new HashSet<>();
-        reader = new Reader(stringReader);
-    }
 
     private int calculateMaxMistakes(Level level) {
         return switch (level) {
@@ -110,6 +105,12 @@ public class Core {
         }
     }
 
+    public void setting(Level level) throws AllWordsWereUsedException, NotAvailableException {
+        setting(session.wordsStorage().getRandomCategory(
+            session.history().passedCategories()
+        ).name(), level);
+    }
+
     public void setting() throws AllWordsWereUsedException, NotAvailableException {
         setting(session.wordsStorage().getRandomCategory(
             session.history().passedCategories()
@@ -128,7 +129,7 @@ public class Core {
 
     public void running() throws NotAvailableException {
         if (gameState == GameState.READY) {
-            gameDisplay = new GameDisplay(new OutputStreamWriter(System.out), word, calculateMaxMistakes(level));
+            gameDisplay = new GameDisplay(writer, word, category.name(), level, calculateMaxMistakes(level));
             gameState = GameState.RUNNING;
             while (mistakesLeft > 0) {
                 String letter = reader().readInput();

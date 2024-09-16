@@ -67,9 +67,14 @@ public class WordsStorage {
          */
     }
 
-    public Category getCategoryByName(String name) {
-        return catalog.get(name);
+    public Category getCategoryByName(String name) throws IllegalArgumentException {
+        Category category = catalog.get(name.toLowerCase());
+        if (category == null) {
+            throw new IllegalArgumentException("No such category: " + name);
+        }
+        return category;
     }
+
 
     public Category getRandomCategory(List<String> usedCategories) {
         return catalog.values()

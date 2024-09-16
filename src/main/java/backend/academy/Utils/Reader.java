@@ -9,17 +9,17 @@ public class Reader {
 
     private final BufferedReader reader;
 
-    public Reader(InputStreamReader streamReader) {
-        reader = new BufferedReader(streamReader);
-    }
-
-    public Reader(StringReader stringReader) {
-        reader = new BufferedReader(stringReader);
+    public Reader(java.io.Reader reader) {
+        this.reader = new BufferedReader(reader);
     }
 
     public String readInput() {
         try {
-            return reader.readLine();
+            String input = reader.readLine();
+            while (input == null) {
+                input = reader.readLine();
+            }
+            return input;
         } catch (IOException ex) {
             return "";
         }

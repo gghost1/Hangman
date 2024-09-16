@@ -12,4 +12,5 @@ public interface GameOutput {
     List<Pair<Integer, String>> replacements();
     String lose();
     String win();
+    List<String> levels();
 }

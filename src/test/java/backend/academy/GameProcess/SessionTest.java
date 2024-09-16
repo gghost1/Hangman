@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     @Test
     public void sessionCreationTest() throws StorageNotInitializedException {
         WordsStorage wordsStorage = WordsStorage.instance(PATH1);
-        Session session = new Session(PATH1);
+        Session session = new Session(PATH1, new OutputStreamWriter(System.out), new StringReader(""));
 
         assertEquals(SessionState.READY, session.state());
         assertEquals(wordsStorage, session.wordsStorage());
@@ -31,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     @Test
     public void chooseSpecificWordStoragePositiveTest() throws StorageNotInitializedException {
         WordsStorage wordsStorage = WordsStorage.instance(PATH1);
-        Session session = new Session(PATH1);
+        Session session = new Session(PATH1, new OutputStreamWriter(System.out), new StringReader(""));
         assertEquals(wordsStorage, session.wordsStorage());
 
         session.chooseSpecificWordStorage(PATH2);
@@ -48,7 +50,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     @Test
     public void chooseSpecificWordStorageNegativeTest() throws StorageNotInitializedException {
         WordsStorage wordsStorage = WordsStorage.instance(PATH1);
-        Session session = new Session(PATH1);
+        Session session = new Session(PATH1, new OutputStreamWriter(System.out), new StringReader(""));
         assertEquals(wordsStorage, session.wordsStorage());
 
         try {

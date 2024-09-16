@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,8 +27,8 @@ public class CoreTest extends StaticWordsTestVariables {
     }
 
     private Core createGame() throws StorageNotInitializedException {
-        Session session = new Session(PATH2);
-        return new Core(session, new InputStreamReader(System.in));
+        Session session = new Session(PATH2, new OutputStreamWriter(System.out), new InputStreamReader(System.in));
+        return new Core(session);
     }
 
     @Test

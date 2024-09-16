@@ -4,10 +4,12 @@ import backend.academy.Exceptions.IncorrectInputException;
 import backend.academy.GameProcess.FrontEnd.StaticOutput.GameOutput;
 import backend.academy.GameProcess.FrontEnd.StaticOutput.EngGameOutput;
 import backend.academy.Utils.Output;
+import backend.academy.Words.Level;
 import backend.academy.Words.Word;
 import it.unimi.dsi.fastutil.Pair;
 import java.io.FileWriter;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +19,8 @@ public class GameDisplay extends Output {
 
     private final GameOutput gameOutput;
     private final Word word;
+    private final String category;
+    private final String level;
     private Set<String> guessedLetters;
     private Set<String> usedLetters;
 
@@ -25,27 +29,14 @@ public class GameDisplay extends Output {
 
     private List<String> currentImage;
 
-    public GameDisplay(OutputStreamWriter outputStreamWriter, Word word, int stepStage) {
-        super(outputStreamWriter);
+    public GameDisplay(Writer writer, Word word, String category, Level level, int stepStage) {
+        super(writer);
         gameOutput = new EngGameOutput();
         guessedLetters = new HashSet<>();
         usedLetters = new HashSet<>();
         this.word = word;
-
-        stage = 0;
-        this.stepStage = stepStage;
-
-        currentImage = gameOutput.initImage();
-
-        output();
-    }
-
-    public GameDisplay(FileWriter fileWriter, Word word, int stepStage) {
-        super(fileWriter);
-        gameOutput = new EngGameOutput();
-        guessedLetters = new HashSet<>();
-        usedLetters = new HashSet<>();
-        this.word = word;
+        this.category = category;
+        this.level = level.name();
 
         stage = 0;
         this.stepStage = stepStage;
@@ -79,6 +70,8 @@ public class GameDisplay extends Output {
     public void output() {
         clear();
         writeOutput(gameOutput.game());
+        writeOutput("Category: " + category, false, " ");
+        writeOutput("Level: " + level);
         writeOutput(gameOutput.hint(), false, "");
         writeOutput(word.hint());
 
