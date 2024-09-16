@@ -47,6 +47,7 @@ public class EngGameOutput implements GameOutput {
                 put("Game is already running", "Game is already running");
                 put("No words were found", "No words were found");
                 put("No such category: ", "No such category: ");
+                put("Core not initialized", "Core not initialized");
             }
         };
         PHRASES = new HashMap<>(){

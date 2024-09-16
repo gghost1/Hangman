@@ -50,4 +50,8 @@ public class Output {
         System.out.flush();
     }
 
+    public void exception(String message) {
+        writeOutput(message);
+        flush();
+    }
 }

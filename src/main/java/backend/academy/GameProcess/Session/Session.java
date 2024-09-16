@@ -7,6 +7,8 @@ import backend.academy.Exceptions.StorageNotInitializedException;
 import backend.academy.GameProcess.Core.Core;
 import backend.academy.GameProcess.FrontEnd.SessionDisplay;
 import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
+
+import backend.academy.GameProcess.MainCore;
 import backend.academy.Utils.Reader;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
@@ -56,7 +58,7 @@ public class Session {
         }
     }
 
-    public void startGame() throws NotAvailableException {
+    public void startGame() throws NotAvailableException, StorageNotInitializedException {
             if (state == SessionState.READY) {
                 Core core = new Core(this);
                 boolean isReady = false;
@@ -80,13 +82,15 @@ public class Session {
                         isReady = false;
                     } catch (NotAvailableException e) {
                         sessionDisplay.exception(e.getMessage());
+                    } catch (StorageNotInitializedException e) {
+                        throw new RuntimeException(e);
                     }
-
                 }
                 try {
                     core.running();
                 } catch (NotAvailableException e) {
                     sessionDisplay.exception(e.getMessage());
+                    MainCore.instance().start();
                 }
             }
     }

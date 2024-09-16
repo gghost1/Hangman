@@ -13,21 +13,29 @@ public class MainCore extends LanguageManager{
     public record IO(Writer writer, Reader reader){}
 
     private static MainCore instance;
-    private Session session;
     private MainCoreDisplay display;
     private IO io;
+    private final Session session;
 
-    public static MainCore instance(IO io, String language) {
+    public static MainCore instance(IO io, String language) throws StorageNotInitializedException {
         if (instance == null) {
             instance = new MainCore(io, language);
         }
         return instance;
     }
 
-    private MainCore(IO io, String language) {
+    public static MainCore instance() throws NotAvailableException {
+        if (instance == null) {
+            throw new NotAvailableException("Core not initialized");
+        }
+        return instance;
+    }
+
+    private MainCore(IO io, String language) throws StorageNotInitializedException {
         super(language);
         this.io = io;
         display = new MainCoreDisplay(io.writer());
+        session = new Session(StaticVariables.PATH(), io.writer(), io.reader);
     }
 
     public void start() throws StorageNotInitializedException, NotAvailableException {
@@ -35,11 +43,10 @@ public class MainCore extends LanguageManager{
         listener();
     }
 
-    public void listener() throws StorageNotInitializedException, NotAvailableException {
+    public void listener() throws NotAvailableException, StorageNotInitializedException {
         backend.academy.Utils.Reader reader = new backend.academy.Utils.Reader(io.reader());
         String command = reader.readInput();
         if (command.toLowerCase().trim().equals(dictionary().command("start"))) {
-            session = new Session(StaticVariables.PATH(), io.writer(), io.reader);
             session.startGame();
         } else if (command.toLowerCase().trim().equals(dictionary().command("exit"))) {
             System.exit(0);

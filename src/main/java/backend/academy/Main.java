@@ -13,8 +13,8 @@ import java.io.PrintWriter;
 
 @Slf4j public class Main {
     public static void main(String[] args) {
-        MainCore mainCore = MainCore.instance(new MainCore.IO(new PrintWriter(System.out), new InputStreamReader(System.in)), "ru");
         try {
+            MainCore mainCore = MainCore.instance(new MainCore.IO(new PrintWriter(System.out), new InputStreamReader(System.in)), "ru");
             mainCore.start();
         } catch (StorageNotInitializedException | NotAvailableException e) {
             log.error(e.getMessage());

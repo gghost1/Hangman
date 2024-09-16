@@ -26,13 +26,13 @@ public class CoreTest extends StaticWordsTestVariables {
         WordsStorage.reset();
     }
 
-    private Core createGame() throws StorageNotInitializedException {
+    private Core createGame() throws StorageNotInitializedException, NotAvailableException {
         Session session = new Session(PATH2, new OutputStreamWriter(System.out), new InputStreamReader(System.in));
         return new Core(session);
     }
 
     @Test
-    public void creationGameTest() throws StorageNotInitializedException {
+    public void creationGameTest() throws StorageNotInitializedException, NotAvailableException {
         Core core = createGame();
 
         assertEquals(GameState.NOT_READY, core.gameState());

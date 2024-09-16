@@ -100,6 +100,11 @@ public class GameDisplay extends Output {
         flush();
     }
 
+    public void exception(String message) {
+        writeOutput(message);
+        flush();
+    }
+
     public void outputLose() throws NotAvailableException {
         writeOutput(dictionary().phrase("You lose. The word was: "), false, "");
         writeOutput(word.name());

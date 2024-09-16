@@ -31,7 +31,7 @@ public record Category(String name, Map<Level, Map<String, Word>> words) {
             .filter(word -> !usedWords.contains(word.name()))
             .toList();
         if (localWords.isEmpty()) {
-            throw new NoWordsWereFoundException(dictionary().exception("No word were found"));
+            throw new NoWordsWereFoundException(dictionary().exception("All words were used"));
         }
         int index = (int) (Math.random() * (localWords.size() - usedWords.size()));
         return localWords.get(index);
@@ -43,7 +43,7 @@ public record Category(String name, Map<Level, Map<String, Word>> words) {
         Set<Level> levelChosen = new HashSet<>(passedLevels);
         while (true) {
             if (levelChosen.size() == Level.values().length) {
-                throw new NoWordsWereFoundException(dictionary().exception("No word were found"));
+                throw new NoWordsWereFoundException(dictionary().exception("All words were used"));
             }
             level = Arrays
                 .stream(Level.values())

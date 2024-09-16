@@ -10,6 +10,7 @@ import backend.academy.GameProcess.MainCore;
 import backend.academy.GameProcess.Session.Result;
 import backend.academy.GameProcess.Session.Session;
 import backend.academy.StaticVariables;
+import backend.academy.Utils.Output;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
@@ -41,6 +42,7 @@ public class Core {
     private final Reader readerIO;
     private final backend.academy.Utils.Reader reader;
     private final Writer writer;
+    private final Output output;
 
     public Core(Session session) {
         this.session = session;
@@ -51,9 +53,11 @@ public class Core {
         this.readerIO = session.readerIO();
         this.reader = new backend.academy.Utils.Reader(readerIO);
         this.writer = session.writer();
+        output = new Output(writer);
     }
 
-    public void setting(String category, Level level) throws AllWordsWereUsedException, NotAvailableException {
+    public void setting(String category, Level level)
+        throws AllWordsWereUsedException, NotAvailableException, StorageNotInitializedException {
         if (gameState != GameState.RUNNING) {
             this.category = session.wordsStorage().getCategoryByName(category);
             this.level = level;
@@ -64,7 +68,8 @@ public class Core {
                 }
                 word = this.category.getRandomWordByLevel(level, session.history().passedWords());
             } catch (NoWordsWereFoundException e) {
-                log.error(e.getMessage(), e);
+                output.exception(e.getMessage());
+                MainCore.instance().start();
             }
             mistakeStep = StaticVariables.getMistakesStep(level);
             mistakesLeft = StaticVariables.MAX_MISTAKES()/ mistakeStep;
@@ -74,7 +79,8 @@ public class Core {
         }
     }
 
-    public void setting(String category) throws AllWordsWereUsedException, NotAvailableException {
+    public void setting(String category)
+        throws AllWordsWereUsedException, NotAvailableException, StorageNotInitializedException {
         if (gameState != GameState.RUNNING) {
             this.category = session.wordsStorage().getCategoryByName(category);
             try {
@@ -87,7 +93,8 @@ public class Core {
                 }
                 word = this.category.getRandomWordByLevel(level, session.history().passedWords());
             } catch (NoWordsWereFoundException e) {
-                log.error(e.getMessage(), e);
+                output.exception(e.getMessage());
+                MainCore.instance().start();
             }
 
             mistakeStep = StaticVariables.getMistakesStep(level);
@@ -98,13 +105,14 @@ public class Core {
         }
     }
 
-    public void setting(Level level) throws AllWordsWereUsedException, NotAvailableException {
+    public void setting(Level level)
+        throws AllWordsWereUsedException, NotAvailableException, StorageNotInitializedException {
         setting(session.wordsStorage().getRandomCategory(
             session.history().passedCategories()
         ).name(), level);
     }
 
-    public void setting() throws AllWordsWereUsedException, NotAvailableException {
+    public void setting() throws AllWordsWereUsedException, NotAvailableException, StorageNotInitializedException {
         setting(session.wordsStorage().getRandomCategory(
             session.history().passedCategories()
         ).name());
@@ -117,13 +125,13 @@ public class Core {
             } else {
                 gameDisplay.outputLose();
             }
-
+            session.history().addPassedWord(word.name());
             session.history().addGameResult(result, word);
             gameState = GameState.NOT_READY;
             try {
-                MainCore.instance(new MainCore.IO(writer, readerIO), "ru").start();
+                MainCore.instance().start();
             } catch (StorageNotInitializedException e) {
-                log.error(e.getMessage());
+                throw new RuntimeException(e);
             }
 
         } else {

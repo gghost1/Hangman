@@ -47,6 +47,7 @@ public class RuGameOutput implements GameOutput {
                 put("Game is already running", "Игра уже запущена");
                 put("No words were found", "Не обнаружено ни одного слова");
                 put("No such category: ", "Такой категории нет: ");
+                put("Core not initialized", "Ядро не инициализировано");
             }
         };
         PHRASES = new HashMap<>(){
