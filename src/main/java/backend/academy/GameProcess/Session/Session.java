@@ -6,16 +6,14 @@ import backend.academy.Exceptions.NotAvailableException;
 import backend.academy.Exceptions.StorageNotInitializedException;
 import backend.academy.GameProcess.Core.Core;
 import backend.academy.GameProcess.FrontEnd.SessionDisplay;
+import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
 import backend.academy.Utils.Reader;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.WordsStorage;
 
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,7 +56,7 @@ public class Session {
         }
     }
 
-    public void startGame() {
+    public void startGame() throws NotAvailableException {
             if (state == SessionState.READY) {
                 Core core = new Core(this);
                 boolean isReady = false;
@@ -77,7 +75,7 @@ public class Session {
                             core.setting(selectedCategory.name());
                         }
                     } catch (AllWordsWereUsedException e) {
-                        sessionDisplay.exception("Choose other category or level");
+                        sessionDisplay.exception(dictionary().exception("Choose other category or level"));
                         core = new Core(this);
                         isReady = false;
                     } catch (NotAvailableException e) {
@@ -93,7 +91,7 @@ public class Session {
             }
     }
 
-    public Category getCategory() {
+    public Category getCategory() throws NotAvailableException {
         sessionDisplay.chooseCategory();
         Category selectedCategory = null;
         while (selectedCategory == null) {
@@ -111,7 +109,7 @@ public class Session {
         return selectedCategory;
     }
 
-    public Level getLevel() {
+    public Level getLevel() throws NotAvailableException {
         sessionDisplay.chooseLevel();
         Level level = null;
         while (level == null) {
@@ -120,21 +118,12 @@ public class Session {
                 break;
             }
             try {
-                level = getLevelByString(levelString);
+                level = dictionary().getLevelByString(levelString);
             } catch (IllegalArgumentException e) {
                 sessionDisplay.exception(e.getMessage());
             }
         }
         return level;
-    }
-
-    private Level getLevelByString(String levelString) {
-        return switch (levelString.toLowerCase()) {
-            case "easy" -> Level.EASY;
-            case "medium" -> Level.MEDIUM;
-            case "hard" -> Level.HARD;
-            default -> throw new IllegalArgumentException("Такого уровня нет");
-        };
     }
 
     public void displayHistory() {

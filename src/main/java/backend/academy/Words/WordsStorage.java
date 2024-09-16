@@ -1,7 +1,8 @@
 package backend.academy.Words;
 
+import backend.academy.Exceptions.NotAvailableException;
 import backend.academy.Exceptions.StorageNotInitializedException;
-import backend.academy.StaticVariables;
+import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
 import backend.academy.Utils.WordParser;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -56,21 +57,10 @@ public class WordsStorage {
         catalog.put(category.name(), category);
     }
 
-    public void displayCategories(int page) {
-        catalog.keySet()
-            .stream()
-            .skip((long) StaticVariables.PAGE_SIZE() * page)
-            .limit((long) StaticVariables.PAGE_SIZE() * (page + 1))
-            .forEach(System.out::println);
-        /*
-        @todo: replace by front method
-         */
-    }
-
-    public Category getCategoryByName(String name) throws IllegalArgumentException {
+    public Category getCategoryByName(String name) throws IllegalArgumentException, NotAvailableException {
         Category category = catalog.get(name.toLowerCase());
         if (category == null) {
-            throw new IllegalArgumentException("No such category: " + name);
+            throw new IllegalArgumentException(dictionary().exception("No such category: ") + name);
         }
         return category;
     }

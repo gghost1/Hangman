@@ -1,5 +1,6 @@
 package backend.academy.Words;
 
+import backend.academy.Exceptions.NotAvailableException;
 import backend.academy.Words.datasource.StaticWordsTestVariables;
 import backend.academy.Exceptions.StorageNotInitializedException;
 import org.junit.jupiter.api.AfterEach;
@@ -38,24 +39,8 @@ public class WordsStorageTest extends StaticWordsTestVariables {
         assertEquals(expected, storage.catalog());
     }
 
-    @Disabled
     @Test
-    public void displayCategoriesTest() throws StorageNotInitializedException {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-
-        System.setOut(new PrintStream(outContent));
-
-        WordsStorage storage = WordsStorage.instance(PATH2);
-        storage.displayCategories(0);
-
-        assertEquals("еда\r\nживотные\r\n", outContent.toString());
-
-        System.setOut(originalOut);
-    }
-
-    @Test
-    public void getCategoryByNameTest() throws StorageNotInitializedException {
+    public void getCategoryByNameTest() throws StorageNotInitializedException, NotAvailableException {
         WordsStorage storage = WordsStorage.instance(PATH2);
         assertEquals(FOOD_CATEGORY, storage.getCategoryByName("еда"));
     }

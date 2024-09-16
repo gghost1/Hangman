@@ -19,7 +19,7 @@ import java.util.HashSet;
 public class FrontTest extends StaticWordsTestVariables {
 
     @Test
-    public void test() {
+    public void test() throws NotAvailableException {
         GameDisplay gameDisplay = new GameDisplay(new OutputStreamWriter(System.out), new Word("hello", "a"), "hello", Level.EASY, 1);
         gameDisplay.output();
         HashSet<String> usedLetters = new HashSet<>();
@@ -59,13 +59,13 @@ public class FrontTest extends StaticWordsTestVariables {
     }
 
     @Test
-    public void chooseLevel() {
+    public void chooseLevel() throws NotAvailableException {
         SessionDisplay sessionDisplay = new SessionDisplay(new OutputStreamWriter(System.out), new ArrayList<>());
         sessionDisplay.chooseLevel();
     }
 
     @Test
-    public void startGame() throws StorageNotInitializedException {
+    public void startGame() throws StorageNotInitializedException, NotAvailableException {
         Session session = new Session(PATH2, new OutputStreamWriter(System.out), new StringReader("a\n\nhard\n"));
         session.startGame();
 

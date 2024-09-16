@@ -1,42 +1,32 @@
 package backend.academy.GameProcess.FrontEnd;
 
-import backend.academy.GameProcess.FrontEnd.StaticOutput.EngGameOutput;
-import backend.academy.GameProcess.FrontEnd.StaticOutput.GameOutput;
+import backend.academy.Exceptions.NotAvailableException;
+import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
 import backend.academy.Utils.Output;
 import java.io.Writer;
 import java.util.List;
 
 public class SessionDisplay extends Output {
 
-    private int stage;
     private final List<String> categories;
-    private final GameOutput gameOutput;
 
     public SessionDisplay(Writer writer, List<String> categories) {
         super(writer);
-        stage = 0;
         this.categories = categories;
-        gameOutput = new EngGameOutput();
     }
 
 
-    public void output() {
-        writeOutput("Привет, давай выберем игру.");
-        chooseCategory();
-        flush();
-    }
-
-    public void chooseCategory() {
-        writeOutput("Выберите категорию: ");
+    public void chooseCategory() throws NotAvailableException {
+        writeOutput(dictionary().phrase("Choose category: "));
         writeOutput(categories);
-        writeOutput("(нажмите Enter для выбора категории по умолчанию)");
+        writeOutput(dictionary().phrase("(Tap Enter to choose random category)"));
         flush();
     }
 
-    public void chooseLevel() {
-        writeOutput("Выберите уровень: ");
-        writeOutput(gameOutput.levels());
-        writeOutput("(нажмите Enter для выбора уровня по умолчанию)");
+    public void chooseLevel() throws NotAvailableException {
+        writeOutput(dictionary().phrase("Choose level: "));
+        writeOutput(dictionary().levels());
+        writeOutput(dictionary().phrase("(Tap Enter to choose random level)"));
         flush();
     }
 

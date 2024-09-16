@@ -1,23 +1,22 @@
 package backend.academy.GameProcess.FrontEnd;
 
 import backend.academy.Exceptions.IncorrectInputException;
+import backend.academy.Exceptions.NotAvailableException;
 import backend.academy.GameProcess.FrontEnd.StaticOutput.GameOutput;
 import backend.academy.GameProcess.FrontEnd.StaticOutput.EngGameOutput;
 import backend.academy.Utils.Output;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
 import it.unimi.dsi.fastutil.Pair;
-import java.io.FileWriter;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
 
 public class GameDisplay extends Output {
 
-    private final GameOutput gameOutput;
     private final Word word;
     private final String category;
     private final String level;
@@ -29,9 +28,9 @@ public class GameDisplay extends Output {
 
     private List<String> currentImage;
 
-    public GameDisplay(Writer writer, Word word, String category, Level level, int stepStage) {
+    public GameDisplay(Writer writer, Word word, String category, Level level, int stepStage)
+        throws NotAvailableException {
         super(writer);
-        gameOutput = new EngGameOutput();
         guessedLetters = new HashSet<>();
         usedLetters = new HashSet<>();
         this.word = word;
@@ -41,12 +40,13 @@ public class GameDisplay extends Output {
         stage = 0;
         this.stepStage = stepStage;
 
-        currentImage = gameOutput.initImage();
+        currentImage = dictionary().initImage();
 
         output();
     }
 
-    public void update(boolean isMistake, Set<String> usedLetters, Set<String> guessedLetters) {
+    public void update(boolean isMistake, Set<String> usedLetters, Set<String> guessedLetters)
+        throws NotAvailableException {
         this.usedLetters = usedLetters;
         if (!isMistake) {
             this.guessedLetters = guessedLetters;
@@ -57,20 +57,20 @@ public class GameDisplay extends Output {
         output();
     }
 
-    private void updateImage() {
+    private void updateImage() throws NotAvailableException {
         for (int i = stage-stepStage; i < stage; i++) {
-            Pair<Integer, String> replacement = gameOutput.replacements().get(i);
+            Pair<Integer, String> replacement = dictionary().replacements().get(i);
             currentImage.set(replacement.key(), replacement.value());
         }
     }
 
-    public void output() {
+    public void output() throws NotAvailableException {
         clear();
-        writeOutput(gameOutput.game());
-        writeOutput("Category: " + category, false, ". ");
-        writeOutput("Level: " + level, false, ". ");
-        writeOutput("You have " + 8/stepStage + " attempts.");
-        writeOutput(gameOutput.hint(), false, "");
+        writeOutput(dictionary().phrase("Game "));
+        writeOutput(dictionary().phrase("Category: ") + category, false, ". ");
+        writeOutput(dictionary().phrase("Level: ") + level, false, ". ");
+        writeOutput(dictionary().phrase("You have ") + 8/stepStage + dictionary().phrase(" attempts."));
+        writeOutput(dictionary().phrase("Hint: "), false, "");
         writeOutput(word.hint());
 
         writeOutput(Arrays.stream(word.name().split(""))
@@ -82,7 +82,7 @@ public class GameDisplay extends Output {
         writeOutput("");
         writeOutput(currentImage);
         writeOutput("");
-        writeOutput(gameOutput.alphabet()
+        writeOutput(dictionary().alphabet()
             .stream()
             .map(x ->
                 (usedLetters.contains(x) ? "_" : x)
@@ -92,7 +92,7 @@ public class GameDisplay extends Output {
         flush();
     }
 
-    public void exception(Exception e) {
+    public void exception(Exception e) throws NotAvailableException {
         output();
         if (e instanceof IncorrectInputException) {
             writeOutput(e.getMessage());
@@ -100,14 +100,14 @@ public class GameDisplay extends Output {
         flush();
     }
 
-    public void outputLose() {
-        writeOutput(gameOutput.lose(), false, "");
+    public void outputLose() throws NotAvailableException {
+        writeOutput(dictionary().phrase("You lose. The word was: "), false, "");
         writeOutput(word.name());
         flush();
     }
 
-    public void outputWin() {
-        writeOutput(gameOutput.win(), true, "");
+    public void outputWin() throws NotAvailableException {
+        writeOutput(dictionary().phrase("You win!"), true, "");
         flush();
     }
 

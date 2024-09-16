@@ -13,10 +13,8 @@ import backend.academy.StaticVariables;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
 import java.io.Reader;
-import java.io.StringReader;
 import java.io.Writer;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,8 +33,8 @@ public class Core {
     private Word word;
     private int mistakeStep;
 
-    private Set<String> usedLetters;
-    private Set<String> correctLetters;
+    private final Set<String> usedLetters;
+    private final Set<String> correctLetters;
     private GameDisplay gameDisplay;
     private int mistakesLeft;
 
@@ -55,15 +53,6 @@ public class Core {
         this.writer = session.writer();
     }
 
-
-    private int calculateMaxMistakes(Level level) {
-        return switch (level) {
-            case EASY -> StaticVariables.MAX_MISTAKES_FOR_EASY();
-            case MEDIUM -> StaticVariables.MAX_MISTAKES_FOR_MEDIUM();
-            case HARD -> StaticVariables.MAX_MISTAKES_FOR_HARD();
-        };
-    }
-
     public void setting(String category, Level level) throws AllWordsWereUsedException, NotAvailableException {
         if (gameState != GameState.RUNNING) {
             this.category = session.wordsStorage().getCategoryByName(category);
@@ -71,17 +60,17 @@ public class Core {
             try {
                 if (session.history().passedCategories().contains(category)
                     || session.history().getPassedLevelsForCategory(category).contains(level)) {
-                    throw new AllWordsWereUsedException(StaticVariables.ALL_WORDS_WERE_USED());
+                    throw new AllWordsWereUsedException(dictionary().exception("All words were used"));
                 }
                 word = this.category.getRandomWordByLevel(level, session.history().passedWords());
             } catch (NoWordsWereFoundException e) {
                 log.error(e.getMessage(), e);
             }
-            mistakeStep = calculateMaxMistakes(level);
-            mistakesLeft = 8/ mistakeStep;
+            mistakeStep = StaticVariables.getMistakesStep(level);
+            mistakesLeft = StaticVariables.MAX_MISTAKES()/ mistakeStep;
             gameState = GameState.READY;
         } else {
-            throw new NotAvailableException(StaticVariables.GAME_IS_RUNNING());
+            throw new NotAvailableException(dictionary().exception("Game is already running"));
         }
     }
 
@@ -90,22 +79,22 @@ public class Core {
             this.category = session.wordsStorage().getCategoryByName(category);
             try {
                 if (session.history().passedCategories().contains(category)) {
-                    throw new AllWordsWereUsedException(StaticVariables.ALL_WORDS_WERE_USED());
+                    throw new AllWordsWereUsedException(dictionary().exception("All words were used"));
                 }
                 this.level = this.category.getRandomLevel(session.history().getPassedLevelsForCategory(category));
                 if (session.history().getPassedLevelsForCategory(category).contains(level)) {
-                    throw new AllWordsWereUsedException(StaticVariables.ALL_WORDS_WERE_USED());
+                    throw new AllWordsWereUsedException(dictionary().exception("All words were used"));
                 }
                 word = this.category.getRandomWordByLevel(level, session.history().passedWords());
             } catch (NoWordsWereFoundException e) {
                 log.error(e.getMessage(), e);
             }
 
-            mistakeStep = calculateMaxMistakes(level);
-            mistakesLeft = 8/ mistakeStep;
+            mistakeStep = StaticVariables.getMistakesStep(level);
+            mistakesLeft = StaticVariables.MAX_MISTAKES()/ mistakeStep;
             gameState = GameState.READY;
         } else {
-            throw new NotAvailableException(StaticVariables.GAME_IS_RUNNING());
+            throw new NotAvailableException(dictionary().exception("Game is already running"));
         }
     }
 
@@ -132,19 +121,19 @@ public class Core {
             session.history().addGameResult(result, word);
             gameState = GameState.NOT_READY;
             try {
-                MainCore.instance(new MainCore.IO(writer, readerIO)).start();
+                MainCore.instance(new MainCore.IO(writer, readerIO), "ru").start();
             } catch (StorageNotInitializedException e) {
                 log.error(e.getMessage());
             }
 
         } else {
-            throw new NotAvailableException("Game is not running");
+            throw new NotAvailableException(dictionary().exception("Game is not running"));
         }
     }
 
     public void running() throws NotAvailableException {
         if (gameState == GameState.READY) {
-            gameDisplay = new GameDisplay(writer, word, category.name(), level, calculateMaxMistakes(level));
+            gameDisplay = new GameDisplay(writer, word, category.name(), level, StaticVariables.getMistakesStep(level));
             gameState = GameState.RUNNING;
             while (mistakesLeft > 0) {
                 String letter = reader().readInput();
@@ -168,20 +157,20 @@ public class Core {
                 }
             }
         } else {
-            throw new NotAvailableException("Game is not ready or already running");
+            throw new NotAvailableException(dictionary().exception("Game is not ready or already running"));
         }
     }
 
-    private boolean isLetterGuessed(String letter) throws IncorrectInputException {
+    private boolean isLetterGuessed(String letter) throws IncorrectInputException, NotAvailableException {
         String localLetter = letter.trim();
         if (localLetter.isEmpty()) {
-            throw new IncorrectInputException("Letter should not be empty");
+            throw new IncorrectInputException(dictionary().exception("Letter should not be empty"));
         }
         if (localLetter.length() > 1) {
-            throw new IncorrectInputException("Input should contains only one letter");
+            throw new IncorrectInputException(dictionary().exception("Input should contains only one letter"));
         }
         if (usedLetters.contains(localLetter)) {
-            throw new IncorrectInputException("Letter already used");
+            throw new IncorrectInputException(dictionary().exception("Letter already used"));
         }
         usedLetters.add(localLetter);
         if (word.name().contains(localLetter)) {

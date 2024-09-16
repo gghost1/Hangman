@@ -1,5 +1,6 @@
 package backend.academy;
 
+import backend.academy.Exceptions.NotAvailableException;
 import backend.academy.Exceptions.StorageNotInitializedException;
 import backend.academy.GameProcess.FrontEnd.MainCoreDisplay;
 import backend.academy.GameProcess.MainCore;
@@ -12,10 +13,10 @@ import java.io.PrintWriter;
 
 @Slf4j public class Main {
     public static void main(String[] args) {
-        MainCore mainCore = MainCore.instance(new MainCore.IO(new PrintWriter(System.out), new InputStreamReader(System.in)));
+        MainCore mainCore = MainCore.instance(new MainCore.IO(new PrintWriter(System.out), new InputStreamReader(System.in)), "ru");
         try {
             mainCore.start();
-        } catch (StorageNotInitializedException e) {
+        } catch (StorageNotInitializedException | NotAvailableException e) {
             log.error(e.getMessage());
         }
     }
