@@ -4,16 +4,18 @@ import backend.academy.Exceptions.AllWordsWereUsedException;
 import backend.academy.Exceptions.IncorrectInputException;
 import backend.academy.Exceptions.NoWordsWereFoundException;
 import backend.academy.Exceptions.NotAvailableException;
+import backend.academy.Exceptions.StorageNotInitializedException;
 import backend.academy.GameProcess.FrontEnd.GameDisplay;
+import backend.academy.GameProcess.MainCore;
 import backend.academy.GameProcess.Session.Result;
 import backend.academy.GameProcess.Session.Session;
 import backend.academy.StaticVariables;
-import backend.academy.Utils.Reader;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
 import java.util.HashSet;
@@ -38,7 +40,8 @@ public class Core {
     private GameDisplay gameDisplay;
     private int mistakesLeft;
 
-    private final Reader reader;
+    private final Reader readerIO;
+    private final backend.academy.Utils.Reader reader;
     private final Writer writer;
 
     public Core(Session session) {
@@ -47,7 +50,8 @@ public class Core {
 
         usedLetters = new HashSet<>();
         correctLetters = new HashSet<>();
-        this.reader = new Reader(session.readerIO());
+        this.readerIO = session.readerIO();
+        this.reader = new backend.academy.Utils.Reader(readerIO);
         this.writer = session.writer();
     }
 
@@ -119,9 +123,20 @@ public class Core {
 
     private void stop(Result result) throws NotAvailableException {
         if (gameState == GameState.RUNNING) {
-            gameDisplay.outputWin();
+            if (result == Result.WIN) {
+                gameDisplay.outputWin();
+            } else {
+                gameDisplay.outputLose();
+            }
+
             session.history().addGameResult(result, word);
             gameState = GameState.NOT_READY;
+            try {
+                MainCore.instance(new MainCore.IO(writer, readerIO)).start();
+            } catch (StorageNotInitializedException e) {
+                log.error(e.getMessage());
+            }
+
         } else {
             throw new NotAvailableException("Game is not running");
         }
@@ -148,6 +163,9 @@ public class Core {
                 } catch (IncorrectInputException ex) {
                     gameDisplay.exception(ex);
                 }
+                if (mistakesLeft <= 0) {
+                    stop(Result.LOSE);
+                }
             }
         } else {
             throw new NotAvailableException("Game is not ready or already running");
@@ -170,7 +188,7 @@ public class Core {
             correctLetters.add(localLetter);
             return true;
         } else {
-            mistakesLeft-= mistakeStep;
+            mistakesLeft--;
             return false;
         }
     }

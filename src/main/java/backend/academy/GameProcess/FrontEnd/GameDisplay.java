@@ -55,9 +55,6 @@ public class GameDisplay extends Output {
             updateImage();
         }
         output();
-        if (stage == gameOutput.replacements().size()) {
-            outputLose();
-        }
     }
 
     private void updateImage() {
@@ -70,8 +67,9 @@ public class GameDisplay extends Output {
     public void output() {
         clear();
         writeOutput(gameOutput.game());
-        writeOutput("Category: " + category, false, " ");
-        writeOutput("Level: " + level);
+        writeOutput("Category: " + category, false, ". ");
+        writeOutput("Level: " + level, false, ". ");
+        writeOutput("You have " + 8/stepStage + " attempts.");
         writeOutput(gameOutput.hint(), false, "");
         writeOutput(word.hint());
 
@@ -102,14 +100,14 @@ public class GameDisplay extends Output {
         flush();
     }
 
-    private void outputLose() {
+    public void outputLose() {
         writeOutput(gameOutput.lose(), false, "");
         writeOutput(word.name());
         flush();
     }
 
     public void outputWin() {
-        writeOutput(gameOutput.win(), false, "");
+        writeOutput(gameOutput.win(), true, "");
         flush();
     }
 
