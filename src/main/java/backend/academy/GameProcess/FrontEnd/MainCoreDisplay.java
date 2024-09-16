@@ -1,8 +1,6 @@
 package backend.academy.GameProcess.FrontEnd;
 
 import backend.academy.Exceptions.NotAvailableException;
-import backend.academy.GameProcess.FrontEnd.StaticOutput.EngGameOutput;
-import backend.academy.GameProcess.FrontEnd.StaticOutput.GameOutput;
 import backend.academy.Utils.Output;
 import java.io.Writer;
 import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;

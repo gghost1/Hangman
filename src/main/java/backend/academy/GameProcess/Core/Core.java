@@ -14,13 +14,13 @@ import backend.academy.Utils.Output;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
-import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
 
 @Slf4j
 @Getter
@@ -64,7 +64,7 @@ public class Core {
             try {
                 if (session.history().passedCategories().contains(category)
                     || session.history().getPassedLevelsForCategory(category).contains(level)) {
-                    throw new AllWordsWereUsedException(dictionary().exception("All words were used"));
+                    throw new AllWordsWereUsedException(dictionary().exception(StaticVariables.ALL_WORDS_WERE_USED()));
                 }
                 word = this.category.getRandomWordByLevel(level, session.history().passedWords());
             } catch (NoWordsWereFoundException e) {
@@ -75,7 +75,7 @@ public class Core {
             mistakesLeft = StaticVariables.MAX_MISTAKES() / mistakeStep;
             gameState = GameState.READY;
         } else {
-            throw new NotAvailableException(dictionary().exception("Game is already running"));
+            throw new NotAvailableException(dictionary().exception(StaticVariables.GAME_IS_ALREADY_RUNNING()));
         }
     }
 
@@ -85,11 +85,11 @@ public class Core {
             this.category = session.wordsStorage().getCategoryByName(category);
             try {
                 if (session.history().passedCategories().contains(category)) {
-                    throw new AllWordsWereUsedException(dictionary().exception("All words were used"));
+                    throw new AllWordsWereUsedException(dictionary().exception(StaticVariables.ALL_WORDS_WERE_USED()));
                 }
                 this.level = this.category.getRandomLevel(session.history().getPassedLevelsForCategory(category));
                 if (session.history().getPassedLevelsForCategory(category).contains(level)) {
-                    throw new AllWordsWereUsedException(dictionary().exception("All words were used"));
+                    throw new AllWordsWereUsedException(dictionary().exception(StaticVariables.ALL_WORDS_WERE_USED()));
                 }
                 word = this.category.getRandomWordByLevel(level, session.history().passedWords());
             } catch (NoWordsWereFoundException e) {
@@ -98,10 +98,10 @@ public class Core {
             }
 
             mistakeStep = StaticVariables.getMistakesStep(level);
-            mistakesLeft = StaticVariables.MAX_MISTAKES()/ mistakeStep;
+            mistakesLeft = StaticVariables.MAX_MISTAKES() / mistakeStep;
             gameState = GameState.READY;
         } else {
-            throw new NotAvailableException(dictionary().exception("Game is already running"));
+            throw new NotAvailableException(dictionary().exception(StaticVariables.GAME_IS_ALREADY_RUNNING()));
         }
     }
 

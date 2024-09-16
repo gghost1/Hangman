@@ -1,10 +1,10 @@
 package backend.academy.GameProcess.FrontEnd;
 
 import backend.academy.Exceptions.NotAvailableException;
-import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
 import backend.academy.Utils.Output;
 import java.io.Writer;
 import java.util.List;
+import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
 
 public class SessionDisplay extends Output {
 

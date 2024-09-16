@@ -5,9 +5,9 @@ import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,14 +18,15 @@ import lombok.extern.slf4j.Slf4j;
 public class WordParser {
 
     @SuppressWarnings("MemberName")
-    private final FileReader FILE_READER;
+    private final String path;
 
-    public WordParser(String path) throws FileNotFoundException {
-        this.FILE_READER = new FileReader(path);
+    public WordParser(String path) {
+        this.path = path;
     }
 
-    public Map<String, Category> parse() {
-        BufferedReader reader = new BufferedReader(FILE_READER);
+    public Map<String, Category> parse() throws IOException {
+        BufferedReader reader = new BufferedReader(
+                new FileReader(path, StandardCharsets.UTF_8));
         Map<String, Category> catalog = new HashMap<>();
         try {
             String line = reader.readLine();

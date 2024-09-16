@@ -1,11 +1,11 @@
 package backend.academy.Utils;
 
-import org.fusesource.jansi.Ansi;
-import org.fusesource.jansi.AnsiConsole;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.List;
 import java.util.function.Function;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
 
 public class Output {
     private final PrintWriter writer;
@@ -34,7 +34,9 @@ public class Output {
         output.forEach(x -> writer.print(function.apply(x) + "\n"));
     }
 
-    protected void writeOutput(List<String> output, Function<String, String> function, boolean newLine, String splitter) {
+    protected void writeOutput(List<String> output,
+        Function<String, String> function,
+        boolean newLine, String splitter) {
         output.forEach(x -> writer.print(function.apply(x) + (newLine ? "\n" : splitter)));
     }
 
@@ -44,8 +46,8 @@ public class Output {
 
     protected void clear() {
         AnsiConsole.systemInstall();
-        System.out.print(Ansi.ansi().eraseScreen());
-        System.out.flush();
+        writer.print(Ansi.ansi().eraseScreen());
+        flush();
     }
 
     public void exception(String message) {

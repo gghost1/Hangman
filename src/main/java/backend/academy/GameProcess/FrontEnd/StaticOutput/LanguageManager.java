@@ -1,7 +1,9 @@
 package backend.academy.GameProcess.FrontEnd.StaticOutput;
 
 import backend.academy.Exceptions.NotAvailableException;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class LanguageManager {
 
     public static GameOutput instance;
@@ -30,7 +32,4 @@ public class LanguageManager {
         return instance;
     }
 
-    public LanguageManager(String language) {
-        getDictionary(language);
-    }
 }

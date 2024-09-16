@@ -7,9 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+@SuppressWarnings({"MultipleStringLiterals", "MagicNumber", "EmptyLineSeparator"})
 public interface GameOutput {
     default List<String> initImage() {
-        return new ArrayList<>(){
+        return new ArrayList<>() {
             {
                 add("|------   ");
                 add("|    |    ");
@@ -22,8 +23,9 @@ public interface GameOutput {
             }
         };
     }
+
     default List<Pair<Integer, String>> replacements() {
-        return new ArrayList<>(){
+        return new ArrayList<>() {
             {
                 add(Pair.of(2, "|    O    "));
                 add(Pair.of(3, "|    |    "));

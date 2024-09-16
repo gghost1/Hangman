@@ -6,18 +6,16 @@ import backend.academy.Exceptions.NotAvailableException;
 import backend.academy.Exceptions.StorageNotInitializedException;
 import backend.academy.GameProcess.Core.Core;
 import backend.academy.GameProcess.FrontEnd.SessionDisplay;
-import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
-
 import backend.academy.GameProcess.MainCore;
 import backend.academy.Utils.Reader;
 import backend.academy.Words.Category;
 import backend.academy.Words.Level;
 import backend.academy.Words.WordsStorage;
-
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
 
 @Slf4j
 @Getter

@@ -31,5 +31,9 @@ public class StaticVariables {
 
     @Getter
     private static final int MAX_MISTAKES = 8;
+    @Getter
+    private static final String ALL_WORDS_WERE_USED = "All words were used";
+    @Getter
+    private static final String GAME_IS_ALREADY_RUNNING = "Game is already running";
 
 }

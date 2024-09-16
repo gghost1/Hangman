@@ -9,9 +9,9 @@ import backend.academy.StaticVariables;
 import backend.academy.Words.WordsStorage;
 import java.io.Reader;
 import java.io.Writer;
+import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
 
-public class MainCore extends LanguageManager{
-    public record IO(Writer writer, Reader reader){}
+public class MainCore {
 
     private static MainCore instance;
     private MainCoreDisplay display;
@@ -33,7 +33,7 @@ public class MainCore extends LanguageManager{
     }
 
     private MainCore(IO io, String language) throws StorageNotInitializedException {
-        super(language);
+        LanguageManager.getDictionary(language);
         this.io = io;
         display = new MainCoreDisplay(io.writer());
         session = new Session(StaticVariables.PATH(), io.writer(), io.reader);
@@ -61,5 +61,7 @@ public class MainCore extends LanguageManager{
             listener();
         }
     }
+
+    public record IO(Writer writer, Reader reader){}
 
 }

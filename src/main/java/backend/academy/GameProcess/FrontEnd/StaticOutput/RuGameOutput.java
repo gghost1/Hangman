@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@SuppressWarnings({"MemberName", "MultipleStringLiterals"})
 public class RuGameOutput implements GameOutput {
 
     private final Set<String> ALPHABET;
@@ -20,20 +21,20 @@ public class RuGameOutput implements GameOutput {
         for (char c = 'а'; c <= 'я'; c++) {
             ALPHABET.add(c + "");
         }
-        LEVELS = new HashMap<>(){
+        LEVELS = new HashMap<>() {
             {
                 put("easy", "легкий");
                 put("medium", "средний");
                 put("hard", "тяжелый");
             }
         };
-        COMMANDS = new HashMap<>(){
+        COMMANDS = new HashMap<>() {
             {
                 put("start", "начать");
                 put("exit", "выход");
             }
         };
-        EXCEPTIONS = new HashMap<>(){
+        EXCEPTIONS = new HashMap<>() {
             {
                 put("Wrong command!", "Неправильная команда!");
                 put("Choose other category or level!", "Выберите другую категорию или сложность!");
@@ -50,7 +51,7 @@ public class RuGameOutput implements GameOutput {
                 put("Core not initialized", "Ядро не инициализировано");
             }
         };
-        PHRASES = new HashMap<>(){
+        PHRASES = new HashMap<>() {
             {
                 put("Choose category: ", "Выберите категорию: ");
                 put("(Tap Enter to choose random category)", "(Нажмите Enter чтобы выбрать случайную категорию)");

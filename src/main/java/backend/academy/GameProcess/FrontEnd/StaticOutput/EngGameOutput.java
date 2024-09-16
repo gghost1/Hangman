@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@SuppressWarnings({"MemberName", "MultipleStringLiterals"})
 public class EngGameOutput implements GameOutput {
 
     private final Set<String> ALPHABET;
@@ -14,26 +15,25 @@ public class EngGameOutput implements GameOutput {
     private final HashMap<String, String> EXCEPTIONS;
     private final HashMap<String, String> PHRASES;
 
-
     public EngGameOutput() {
         ALPHABET = new HashSet<>();
         for (char c = 'a'; c <= 'z'; c++) {
             ALPHABET.add(c + "");
         }
-        LEVELS = new HashMap<>(){
+        LEVELS = new HashMap<>() {
             {
                 put("easy", "easy");
                 put("medium", "medium");
                 put("hard", "hard");
             }
         };
-        COMMANDS = new HashMap<>(){
+        COMMANDS = new HashMap<>() {
             {
                 put("start", "start");
                 put("exit", "exit");
             }
         };
-        EXCEPTIONS = new HashMap<>(){
+        EXCEPTIONS = new HashMap<>() {
             {
                 put("Wrong command!", "Wrong command!");
                 put("Choose other category or level!", "Choose other category or level!");
@@ -50,7 +50,7 @@ public class EngGameOutput implements GameOutput {
                 put("Core not initialized", "Core not initialized");
             }
         };
-        PHRASES = new HashMap<>(){
+        PHRASES = new HashMap<>() {
             {
                 put("Choose category: ", "Choose category: ");
                 put("(Tap Enter to choose random category)", "(Tap Enter to choose random category)");

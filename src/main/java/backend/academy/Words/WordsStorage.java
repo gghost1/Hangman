@@ -2,14 +2,15 @@ package backend.academy.Words;
 
 import backend.academy.Exceptions.NotAvailableException;
 import backend.academy.Exceptions.StorageNotInitializedException;
-import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
 import backend.academy.Utils.WordParser;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
 
 @Slf4j
 public class WordsStorage {
@@ -24,6 +25,8 @@ public class WordsStorage {
                 instance.init(path);
             } catch (FileNotFoundException e) {
                 throw new StorageNotInitializedException(e.getMessage());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
         return instance;
@@ -34,7 +37,7 @@ public class WordsStorage {
     @Getter
     private Map<String, Category> catalog = new HashMap<>();
 
-    private void init(String path) throws FileNotFoundException {
+    private void init(String path) throws IOException {
         WordParser wordParser = new WordParser(path);
         catalog = wordParser.parse();
     }
@@ -47,7 +50,7 @@ public class WordsStorage {
         WordsStorage ownStorage = new WordsStorage();
         try {
             ownStorage.init(path);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new StorageNotInitializedException(e.getMessage());
         }
         return ownStorage;

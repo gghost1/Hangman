@@ -2,8 +2,7 @@ package backend.academy.GameProcess.FrontEnd;
 
 import backend.academy.Exceptions.IncorrectInputException;
 import backend.academy.Exceptions.NotAvailableException;
-import backend.academy.GameProcess.FrontEnd.StaticOutput.GameOutput;
-import backend.academy.GameProcess.FrontEnd.StaticOutput.EngGameOutput;
+import backend.academy.StaticVariables;
 import backend.academy.Utils.Output;
 import backend.academy.Words.Level;
 import backend.academy.Words.Word;
@@ -51,14 +50,14 @@ public class GameDisplay extends Output {
         if (!isMistake) {
             this.guessedLetters = guessedLetters;
         } else {
-            stage+=stepStage;
+            stage += stepStage;
             updateImage();
         }
         output();
     }
 
     private void updateImage() throws NotAvailableException {
-        for (int i = stage-stepStage; i < stage; i++) {
+        for (int i = stage - stepStage; i < stage; i++) {
             Pair<Integer, String> replacement = dictionary().replacements().get(i);
             currentImage.set(replacement.key(), replacement.value());
         }
@@ -69,7 +68,9 @@ public class GameDisplay extends Output {
         writeOutput(dictionary().phrase("Game "));
         writeOutput(dictionary().phrase("Category: ") + category, false, ". ");
         writeOutput(dictionary().phrase("Level: ") + level, false, ". ");
-        writeOutput(dictionary().phrase("You have ") + 8/stepStage + dictionary().phrase(" attempts."));
+        writeOutput(dictionary().phrase("You have ")
+            + StaticVariables.MAX_MISTAKES() / stepStage
+            + dictionary().phrase(" attempts."));
         writeOutput(dictionary().phrase("Hint: "), false, "");
         writeOutput(word.hint());
 
