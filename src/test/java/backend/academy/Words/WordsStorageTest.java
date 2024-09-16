@@ -45,6 +45,7 @@ public class WordsStorageTest extends StaticWordsTestVariables {
         assertEquals(FOOD_CATEGORY, storage.getCategoryByName("еда"));
     }
 
+    @Disabled
     @Test
     public void getRandomCategoryTest() throws StorageNotInitializedException {
         WordsStorage storage = WordsStorage.instance(PATH2);

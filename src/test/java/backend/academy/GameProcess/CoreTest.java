@@ -1,5 +1,6 @@
 package backend.academy.GameProcess;
 
+import backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager;
 import backend.academy.Words.datasource.StaticWordsTestVariables;
 import backend.academy.Exceptions.AllWordsWereUsedException;
 import backend.academy.Exceptions.NotAvailableException;
@@ -12,14 +13,23 @@ import backend.academy.Words.Level;
 import backend.academy.Words.WordsStorage;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.StringReader;
+import java.io.StringWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Slf4j
 public class CoreTest extends StaticWordsTestVariables {
+
+    @BeforeAll
+    public static void init() {
+        LanguageManager.getDictionary("ru");
+    }
 
     @AfterEach
     public void afterEach() {
@@ -48,8 +58,8 @@ public class CoreTest extends StaticWordsTestVariables {
         assertEquals(Level.EASY, core.level());
         assertEquals(core.session().wordsStorage().getCategoryByName(ANIMAL_CATEGORY.name()), core.category());
         assertThat(core.word()).isIn(core.category().getWordsByLevel(Level.EASY).values());
-        assertEquals(StaticVariables.MAX_MISTAKES_FOR_EASY(), core.mistakeStep());
-        assertEquals(StaticVariables.MAX_MISTAKES_FOR_EASY(), core.mistakesLeft());
+        assertEquals(StaticVariables.MISTAKE_STEP_FOR_EASY(), core.mistakeStep());
+        assertEquals(StaticVariables.MAX_MISTAKES() / StaticVariables.MISTAKE_STEP_FOR_EASY(), core.mistakesLeft());
     }
 
     @Test
@@ -59,8 +69,18 @@ public class CoreTest extends StaticWordsTestVariables {
         core.setting(ANIMAL_CATEGORY.name());
         assertEquals(core.session().wordsStorage().getCategoryByName(ANIMAL_CATEGORY.name()), core.category());
         assertThat(core.word()).isIn(core.category().getWordsByLevel(core.level()).values());
-        assertEquals(StaticVariables.getMaxMistakes(core.level()), core.mistakeStep());
-        assertEquals(StaticVariables.getMaxMistakes(core.level()), core.mistakesLeft());
+        assertEquals(StaticVariables.getMistakesStep(core.level()), core.mistakeStep());
+        assertEquals(StaticVariables.MAX_MISTAKES() / StaticVariables.getMistakesStep(core.level()), core.mistakesLeft());
+    }
+
+    @Test
+    public void settingWithLevelTest() throws StorageNotInitializedException, AllWordsWereUsedException, NotAvailableException {
+        Core core = createGame();
+        core.setting(Level.EASY);
+        assertEquals(Level.EASY, core.level());
+        assertThat(core.word()).isIn(core.category().getWordsByLevel(Level.EASY).values());
+        assertEquals(StaticVariables.MISTAKE_STEP_FOR_EASY(), core.mistakeStep());
+        assertEquals(StaticVariables.MAX_MISTAKES() / StaticVariables.MISTAKE_STEP_FOR_EASY(), core.mistakesLeft());
     }
 
     @Test
@@ -69,8 +89,47 @@ public class CoreTest extends StaticWordsTestVariables {
 
         core.setting();
         assertThat(core.word()).isIn(core.category().getWordsByLevel(core.level()).values());
-        assertEquals(StaticVariables.getMaxMistakes(core.level()), core.mistakeStep());
-        assertEquals(StaticVariables.getMaxMistakes(core.level()), core.mistakesLeft());
+        assertEquals(StaticVariables.getMistakesStep(core.level()), core.mistakeStep());
+        assertEquals(StaticVariables.MAX_MISTAKES() / StaticVariables.getMistakesStep(core.level()), core.mistakesLeft());
     }
+
+    @Test
+    public void settingWithIncorrectCategoryTest() throws NotAvailableException, StorageNotInitializedException {
+        Core core = createGame();
+        assertThrows(IllegalArgumentException.class, () -> core.setting("incorrectCategory"));
+    }
+
+    @Test
+    public void runningNegativeTest() throws NotAvailableException, StorageNotInitializedException {
+        Core core = createGame();
+        assertThrows(NotAvailableException.class, () -> core.running());
+    }
+
+    @Test
+    public void runningPositiveTest() throws NotAvailableException, StorageNotInitializedException, AllWordsWereUsedException {
+        Session session = new Session(PATH2, new OutputStreamWriter(System.out), new StringReader("к\nо\nт\n"));
+        Core core = new Core(session);
+        core.setting(ANIMAL_CATEGORY.name(), Level.EASY);
+        assertThrows(NotAvailableException.class, () -> core.running());
+    }
+
+    @Test
+    public void runningIncorrectInputTest() throws NotAvailableException, StorageNotInitializedException, AllWordsWereUsedException {
+        StringWriter stringWriter = new StringWriter();
+        Session session = new Session(PATH2, stringWriter, new StringReader("кj\n\nк\nl\nо\nо\nт\n"));
+        Core core = new Core(session);
+        core.setting(ANIMAL_CATEGORY.name(), Level.EASY);
+        try {
+            core.running();
+        } catch (NotAvailableException e) {
+
+        } finally {
+            assertThat(stringWriter.toString()).contains("Ввод должен содержать только одну букву");
+            assertThat(stringWriter.toString()).contains("Буква не должна быть пустой");
+            assertThat(stringWriter.toString()).contains("Буква уже использована");
+            assertEquals(core.mistakesLeft(), StaticVariables.MAX_MISTAKES() / StaticVariables.getMistakesStep(core.level())-1);
+        }
+    }
+
 
 }

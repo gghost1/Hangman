@@ -72,7 +72,7 @@ public class Core {
                 MainCore.instance().start();
             }
             mistakeStep = StaticVariables.getMistakesStep(level);
-            mistakesLeft = StaticVariables.MAX_MISTAKES()/ mistakeStep;
+            mistakesLeft = StaticVariables.MAX_MISTAKES() / mistakeStep;
             gameState = GameState.READY;
         } else {
             throw new NotAvailableException(dictionary().exception("Game is already running"));
