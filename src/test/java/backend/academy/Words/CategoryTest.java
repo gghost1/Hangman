@@ -1,5 +1,6 @@
 package backend.academy.Words;
 
+import backend.academy.Exceptions.NotAvailableException;
 import backend.academy.Words.datasource.StaticWordsTestVariables;
 import backend.academy.Exceptions.NoWordsWereFoundException;
 import org.junit.jupiter.api.AfterEach;
@@ -28,21 +29,6 @@ public class CategoryTest extends StaticWordsTestVariables {
         assertEquals(expected, category.words().get(Level.EASY).get("собака"));
     }
 
-    @Disabled
-    @Test
-    public void displayTest() {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-
-        System.setOut(new PrintStream(outContent));
-
-        ANIMAL_CATEGORY.display();
-
-        assertEquals("животные\r\n", outContent.toString());
-
-        System.setOut(originalOut);
-    }
-
     @Test
     public void getWordsByLevelTest() {
         assertEquals(0, ANIMAL_CATEGORY_EMPTY.getWordsByLevel(Level.EASY).size());
@@ -51,20 +37,6 @@ public class CategoryTest extends StaticWordsTestVariables {
 
     }
 
-    @Disabled
-    @Test
-    public void displayWordsByLevelTest() {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-
-        System.setOut(new PrintStream(outContent));
-
-        ANIMAL_CATEGORY.displayWordsByLevel(Level.EASY, 0);
-
-        assertEquals("кот\r\nсобака\r\n", outContent.toString());
-
-        System.setOut(originalOut);
-    }
 
     @Test
     public void getWordByLevelAndNameTest() {
@@ -72,7 +44,7 @@ public class CategoryTest extends StaticWordsTestVariables {
     }
 
     @Test
-    public void getRandomWordByLevelTest() throws NoWordsWereFoundException {
+    public void getRandomWordByLevelTest() throws NoWordsWereFoundException, NotAvailableException {
         Set<Word> words = new HashSet<>();
         for (int i = 0; i < 10; i++) {
             words.add(ANIMAL_CATEGORY.getRandomWordByLevel(Level.EASY, new HashSet<>()));
@@ -82,7 +54,7 @@ public class CategoryTest extends StaticWordsTestVariables {
     }
 
     @Test
-    public void getRandomWordTest() throws NoWordsWereFoundException {
+    public void getRandomWordTest() throws NoWordsWereFoundException, NotAvailableException {
         Set<Word> words = new HashSet<>();
         for (int i = 0; i < 10; i++) {
             words.add(ANIMAL_CATEGORY.getRandomWordByLevel(ANIMAL_CATEGORY.getRandomLevel(new HashSet<>()), new HashSet<>()));

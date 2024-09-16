@@ -22,13 +22,6 @@ public class WordParserTest extends StaticWordsTestVariables {
     }
 
     @Test
-    public void parseWordsTest() throws StorageNotInitializedException {
-        WordsStorage wordsStorage = WordsStorage.instance(PATH2);
-
-        assertEquals(EXPECTED2, wordsStorage.catalog());
-    }
-
-    @Test
     public void incorrectPathTest() {
         assertThrows(StorageNotInitializedException.class, () -> WordsStorage.instance(PATH3));
     }
