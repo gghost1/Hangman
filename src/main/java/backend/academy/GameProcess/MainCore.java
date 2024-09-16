@@ -6,6 +6,7 @@ import backend.academy.GameProcess.FrontEnd.MainCoreDisplay;
 import backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager;
 import backend.academy.GameProcess.Session.Session;
 import backend.academy.StaticVariables;
+import backend.academy.Words.WordsStorage;
 import java.io.Reader;
 import java.io.Writer;
 
@@ -38,6 +39,11 @@ public class MainCore extends LanguageManager{
         session = new Session(StaticVariables.PATH(), io.writer(), io.reader);
     }
 
+    public static void reset() {
+        instance = null;
+        WordsStorage.reset();
+    }
+
     public void start() throws StorageNotInitializedException, NotAvailableException {
         display.initMessage();
         listener();
@@ -51,7 +57,7 @@ public class MainCore extends LanguageManager{
         } else if (command.toLowerCase().trim().equals(dictionary().command("exit"))) {
             System.exit(0);
         } else {
-            display.exceptionMessage(dictionary().exception("Wrong command!"));
+            display.exception(dictionary().exception("Wrong command!"));
             listener();
         }
     }

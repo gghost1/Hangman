@@ -95,7 +95,7 @@ public class Session {
             }
     }
 
-    public Category getCategory() throws NotAvailableException {
+    private Category getCategory() throws NotAvailableException {
         sessionDisplay.chooseCategory();
         Category selectedCategory = null;
         while (selectedCategory == null) {
@@ -113,7 +113,7 @@ public class Session {
         return selectedCategory;
     }
 
-    public Level getLevel() throws NotAvailableException {
+    private Level getLevel() throws NotAvailableException {
         sessionDisplay.chooseLevel();
         Level level = null;
         while (level == null) {

@@ -17,6 +17,7 @@ public class SessionDisplay extends Output {
 
 
     public void chooseCategory() throws NotAvailableException {
+        clear();
         writeOutput(dictionary().phrase("Choose category: "));
         writeOutput(categories);
         writeOutput(dictionary().phrase("(Tap Enter to choose random category)"));
@@ -24,14 +25,10 @@ public class SessionDisplay extends Output {
     }
 
     public void chooseLevel() throws NotAvailableException {
+        clear();
         writeOutput(dictionary().phrase("Choose level: "));
         writeOutput(dictionary().levels());
         writeOutput(dictionary().phrase("(Tap Enter to choose random level)"));
-        flush();
-    }
-
-    public void exception(String message) {
-        writeOutput(message);
         flush();
     }
 

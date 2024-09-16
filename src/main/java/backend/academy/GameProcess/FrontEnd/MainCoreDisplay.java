@@ -15,14 +15,11 @@ public class MainCoreDisplay extends Output {
     }
 
     public void initMessage() throws NotAvailableException {
+        clear();
         writeOutput(dictionary().phrase("Hi! You are in the game!"));
         writeOutput(dictionary().phrase("To start the game type: start"));
         writeOutput(dictionary().phrase("To exit the game type: exit"));
         flush();
     }
 
-    public void exceptionMessage(String message) {
-        writeOutput(message);
-        flush();
-    }
 }
