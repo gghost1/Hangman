@@ -1,6 +1,6 @@
 package backend.academy;
 
-import backend.academy.Words.Level;
+import backend.academy.words.Level;
 import lombok.Getter;
 
 public class StaticVariables {

@@ -1,7 +1,7 @@
-package backend.academy.GameProcess.Session;
+package backend.academy.gameProcess.session;
 
-import backend.academy.Words.Level;
-import backend.academy.Words.Word;
+import backend.academy.words.Level;
+import backend.academy.words.Word;
 import it.unimi.dsi.fastutil.Pair;
 import java.util.ArrayList;
 import java.util.HashMap;

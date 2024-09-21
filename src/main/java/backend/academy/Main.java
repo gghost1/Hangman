@@ -1,8 +1,8 @@
 package backend.academy;
 
-import backend.academy.Exceptions.NotAvailableException;
-import backend.academy.Exceptions.StorageNotInitializedException;
-import backend.academy.GameProcess.MainCore;
+import backend.academy.exceptions.NotAvailableException;
+import backend.academy.exceptions.StorageNotInitializedException;
+import backend.academy.gameProcess.MainCore;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import lombok.experimental.UtilityClass;
