@@ -2,6 +2,7 @@ package backend.academy.gameProcess;
 
 import backend.academy.StaticVariables;
 import backend.academy.exceptions.NotAvailableException;
+import backend.academy.exceptions.ProgramExit;
 import backend.academy.exceptions.StorageNotInitializedException;
 import backend.academy.gameProcess.session.Session;
 import backend.academy.gameProcess.ui.MainCoreDisplay;
@@ -18,7 +19,7 @@ public class MainCore {
     private IO io;
     private final Session session;
 
-    public static MainCore instance(IO io, String language) throws StorageNotInitializedException {
+    public static synchronized MainCore instance(IO io, String language) throws StorageNotInitializedException {
         if (instance == null) {
             instance = new MainCore(io, language);
         }
@@ -44,18 +45,18 @@ public class MainCore {
         WordsStorage.reset();
     }
 
-    public void start() throws StorageNotInitializedException, NotAvailableException {
+    public void start() throws StorageNotInitializedException, NotAvailableException, ProgramExit {
         display.initMessage();
         listener();
     }
 
-    public void listener() throws NotAvailableException, StorageNotInitializedException {
+    public void listener() throws NotAvailableException, StorageNotInitializedException, ProgramExit {
         backend.academy.utils.Reader reader = new backend.academy.utils.Reader(io.reader());
-        String command = reader.readInput();
-        if (command.toLowerCase().trim().equals(dictionary().command("start"))) {
+        String command = reader.readInput().trim();
+        if (command.toLowerCase().equals(dictionary().command("start"))) {
             session.startGame();
-        } else if (command.toLowerCase().trim().equals(dictionary().command("exit"))) {
-            System.exit(0);
+        } else if (command.toLowerCase().equals(dictionary().command("exit"))) {
+            throw new ProgramExit();
         } else {
             display.exception(dictionary().exception("Wrong command!"));
             listener();

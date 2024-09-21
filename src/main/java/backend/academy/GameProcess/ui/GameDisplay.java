@@ -1,8 +1,8 @@
 package backend.academy.gameProcess.ui;
 
+import backend.academy.StaticVariables;
 import backend.academy.exceptions.IncorrectInputException;
 import backend.academy.exceptions.NotAvailableException;
-import backend.academy.StaticVariables;
 import backend.academy.utils.Output;
 import backend.academy.words.Level;
 import backend.academy.words.Word;
