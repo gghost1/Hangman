@@ -1,6 +1,6 @@
-package backend.academy.GameProcess.FrontEnd.StaticOutput;
+package backend.academy.gameProcess.ui.staticOutput;
 
-import backend.academy.Words.Level;
+import backend.academy.words.Level;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;

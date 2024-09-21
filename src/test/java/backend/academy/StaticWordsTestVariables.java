@@ -1,16 +1,16 @@
-package backend.academy.Words.datasource;
+package backend.academy;
 
-import backend.academy.Words.Category;
-import backend.academy.Words.Level;
-import backend.academy.Words.Word;
+import backend.academy.words.Category;
+import backend.academy.words.Level;
+import backend.academy.words.Word;
 import java.util.HashMap;
 import java.util.Map;
 
 public class StaticWordsTestVariables {
 
-    protected final String PATH1 = "src/test/java/backend/academy/Words/datasource/testData1";
-    protected final String PATH2 = "src/test/java/backend/academy/Words/datasource/testData2";
-    protected final String PATH3 = "src/test/java/backend/academy/Words/datasource/testData3";
+    protected final String EMPTY_CATEGORY_PATH = "src/test/resources/testData1";
+    protected final String FULL_FILED_CATEGORY_PATH = "src/test/resources/testData2";
+    protected final String UNDEFINED_CATEGORY_PATH = "src/test/resources/testData3";
 
     protected final Category ANIMAL_CATEGORY_EMPTY = new Category("животные", new HashMap<>(Map.of(
         Level.EASY, new HashMap<>(),
@@ -18,7 +18,7 @@ public class StaticWordsTestVariables {
         Level.HARD, new HashMap<>()
     )));
 
-    protected final Category ANIMAL_CATEGORY = new Category("животные", new HashMap<>(Map.of(
+    protected final Category ANIMAL_CATEGORY_FULL_FILED = new Category("животные", new HashMap<>(Map.of(
         Level.MEDIUM, new HashMap<>(Map.of(
             "кенгуру" , new Word("кенгуру", "прыгает на задних лапах и носит детёныша в сумке"),
             "медведь", new Word("медведь", "любит мёд и зимует в спячке")
@@ -32,7 +32,7 @@ public class StaticWordsTestVariables {
         )))
     ));
 
-    protected final Category FOOD_CATEGORY = new Category("еда", new HashMap<>(Map.of(
+    protected final Category FOOD_CATEGORY_FULL_FILED = new Category("еда", new HashMap<>(Map.of(
         Level.EASY, new HashMap<>(Map.of(
             "суп", new Word("суп", "жидкое первое блюдо"),
             "яблоко", new Word("яблоко", "круглый фрукт с косточками")
@@ -45,13 +45,13 @@ public class StaticWordsTestVariables {
         )))
     ));
 
-    protected final Map<String, Category> EXPECTED1 = Map.of(
+    protected final Map<String, Category> EMPTY_WORDS_STORAGE_CATEGORY = Map.of(
         "животные", ANIMAL_CATEGORY_EMPTY
     );
 
-    protected final Map<String, Category> EXPECTED2 = new HashMap<>(Map.of(
-        "животные", ANIMAL_CATEGORY,
-        "еда", FOOD_CATEGORY
+    protected final Map<String, Category> FULL_FILED_WORDS_STORAGE_CATEGORY = new HashMap<>(Map.of(
+        "животные", ANIMAL_CATEGORY_FULL_FILED,
+        "еда", FOOD_CATEGORY_FULL_FILED
     ));
 
 }

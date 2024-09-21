@@ -1,9 +1,9 @@
-package backend.academy.GameProcess.FrontEnd;
+package backend.academy.gameProcess.ui;
 
-import backend.academy.Exceptions.NotAvailableException;
-import backend.academy.Utils.Output;
+import backend.academy.exceptions.NotAvailableException;
+import backend.academy.utils.Output;
 import java.io.Writer;
-import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
+import static backend.academy.gameProcess.ui.staticOutput.LanguageManager.dictionary;
 
 public class MainCoreDisplay extends Output {
 

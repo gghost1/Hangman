@@ -1,18 +1,18 @@
-package backend.academy.GameProcess.FrontEnd;
+package backend.academy.gameProcess.ui;
 
-import backend.academy.Exceptions.IncorrectInputException;
-import backend.academy.Exceptions.NotAvailableException;
 import backend.academy.StaticVariables;
-import backend.academy.Utils.Output;
-import backend.academy.Words.Level;
-import backend.academy.Words.Word;
+import backend.academy.exceptions.IncorrectInputException;
+import backend.academy.exceptions.NotAvailableException;
+import backend.academy.utils.Output;
+import backend.academy.words.Level;
+import backend.academy.words.Word;
 import it.unimi.dsi.fastutil.Pair;
 import java.io.Writer;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
+import static backend.academy.gameProcess.ui.staticOutput.LanguageManager.dictionary;
 
 public class GameDisplay extends Output {
 

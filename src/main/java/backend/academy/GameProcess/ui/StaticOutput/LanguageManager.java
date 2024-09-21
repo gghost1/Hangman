@@ -1,6 +1,6 @@
-package backend.academy.GameProcess.FrontEnd.StaticOutput;
+package backend.academy.gameProcess.ui.staticOutput;
 
-import backend.academy.Exceptions.NotAvailableException;
+import backend.academy.exceptions.NotAvailableException;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
