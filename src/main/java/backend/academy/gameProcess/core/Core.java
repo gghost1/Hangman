@@ -1,15 +1,15 @@
 package backend.academy.gameProcess.core;
 
+import backend.academy.StaticVariables;
 import backend.academy.exceptions.AllWordsWereUsedException;
 import backend.academy.exceptions.IncorrectInputException;
 import backend.academy.exceptions.NoWordsWereFoundException;
 import backend.academy.exceptions.NotAvailableException;
 import backend.academy.exceptions.StorageNotInitializedException;
-import backend.academy.gameProcess.ui.GameDisplay;
 import backend.academy.gameProcess.MainCore;
 import backend.academy.gameProcess.session.Result;
 import backend.academy.gameProcess.session.Session;
-import backend.academy.StaticVariables;
+import backend.academy.gameProcess.ui.GameDisplay;
 import backend.academy.utils.Output;
 import backend.academy.words.Category;
 import backend.academy.words.Level;

@@ -1,11 +1,11 @@
 package backend.academy.gameProcess;
 
+import backend.academy.StaticVariables;
 import backend.academy.exceptions.NotAvailableException;
 import backend.academy.exceptions.StorageNotInitializedException;
+import backend.academy.gameProcess.session.Session;
 import backend.academy.gameProcess.ui.MainCoreDisplay;
 import backend.academy.gameProcess.ui.staticOutput.LanguageManager;
-import backend.academy.gameProcess.session.Session;
-import backend.academy.StaticVariables;
 import backend.academy.words.WordsStorage;
 import java.io.Reader;
 import java.io.Writer;

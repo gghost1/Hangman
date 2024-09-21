@@ -1,8 +1,8 @@
 package backend.academy.words;
 
+import backend.academy.StaticVariables;
 import backend.academy.exceptions.NoWordsWereFoundException;
 import backend.academy.exceptions.NotAvailableException;
-import backend.academy.StaticVariables;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
