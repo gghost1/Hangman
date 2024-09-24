@@ -1,21 +1,22 @@
-package backend.academy.GameProcess.Session;
+package backend.academy.gameProcess.session;
 
 
-import backend.academy.Exceptions.AllWordsWereUsedException;
-import backend.academy.Exceptions.NotAvailableException;
-import backend.academy.Exceptions.StorageNotInitializedException;
-import backend.academy.GameProcess.Core.Core;
-import backend.academy.GameProcess.FrontEnd.SessionDisplay;
-import backend.academy.GameProcess.MainCore;
-import backend.academy.Utils.Reader;
-import backend.academy.Words.Category;
-import backend.academy.Words.Level;
-import backend.academy.Words.WordsStorage;
+import backend.academy.exceptions.AllWordsWereUsedException;
+import backend.academy.exceptions.NotAvailableException;
+import backend.academy.exceptions.StorageNotInitializedException;
+import backend.academy.gameProcess.MainCore;
+import backend.academy.gameProcess.core.Core;
+import backend.academy.gameProcess.ui.SessionDisplay;
+import backend.academy.utils.Reader;
+import backend.academy.words.Category;
+import backend.academy.words.Level;
+import backend.academy.words.WordsStorage;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import static backend.academy.GameProcess.FrontEnd.StaticOutput.LanguageManager.dictionary;
+import static backend.academy.gameProcess.ui.staticOutput.LanguageManager.dictionary;
 
 @Slf4j
 @Getter
@@ -35,16 +36,17 @@ public class Session {
 
 
     public Session(String dataSourcePath, Writer writer, java.io.Reader reader) throws StorageNotInitializedException {
-        this.wordsStorage = WordsStorage.instance(dataSourcePath);
-        this.sessionDisplay = new SessionDisplay(
-                new OutputStreamWriter(System.out),
-                wordsStorage.catalog().keySet().stream().toList());
         this.reader = new Reader(reader);
         this.readerIO = reader;
         this.writer = writer;
         this.dataSourcePath = dataSourcePath;
         state = SessionState.READY;
         history = new SessionHistory();
+
+        this.wordsStorage = WordsStorage.instance(dataSourcePath);
+        sessionDisplay = new SessionDisplay(
+            new OutputStreamWriter(System.out, StandardCharsets.UTF_8),
+            wordsStorage.catalog().keySet().stream().toList());
     }
 
     public void chooseSpecificWordStorage(String dataSourcePath) throws StorageNotInitializedException {

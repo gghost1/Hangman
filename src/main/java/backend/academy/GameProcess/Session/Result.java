@@ -1,4 +1,4 @@
-package backend.academy.GameProcess.Session;
+package backend.academy.gameProcess.session;
 
 public enum Result {
     WIN,
