@@ -1,9 +1,7 @@
 package backend.academy.gameProcess.core;
 
 import backend.academy.StaticVariables;
-import backend.academy.exceptions.AllWordsWereUsedException;
 import backend.academy.exceptions.IncorrectInputException;
-import backend.academy.exceptions.NoWordsWereFoundException;
 import backend.academy.exceptions.NotAvailableException;
 import backend.academy.exceptions.StorageNotInitializedException;
 import backend.academy.gameProcess.MainCore;
@@ -11,9 +9,6 @@ import backend.academy.gameProcess.session.Result;
 import backend.academy.gameProcess.session.Session;
 import backend.academy.gameProcess.ui.GameDisplay;
 import backend.academy.utils.Output;
-import backend.academy.words.Category;
-import backend.academy.words.Level;
-import backend.academy.words.Word;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.HashSet;
@@ -24,29 +19,19 @@ import static backend.academy.gameProcess.ui.staticOutput.LanguageManager.dictio
 
 @Slf4j
 @Getter
-public class Core {
-
-    private Session session;
-    private GameState gameState;
-
-    private Level level;
-    private Category category;
-    private Word word;
-    private int mistakeStep;
+public class Core extends Settings {
 
     private final Set<String> usedLetters;
     private final Set<String> correctLetters;
-    private GameDisplay gameDisplay;
-    private int mistakesLeft;
 
+    private GameDisplay gameDisplay;
     private final Reader readerIO;
     private final backend.academy.utils.Reader reader;
     private final Writer writer;
     private final Output output;
 
     public Core(Session session) {
-        this.session = session;
-        this.gameState = GameState.NOT_READY;
+        super(new Output(session.writer()), GameState.NOT_READY, session);
 
         usedLetters = new HashSet<>();
         correctLetters = new HashSet<>();
@@ -54,68 +39,6 @@ public class Core {
         this.reader = new backend.academy.utils.Reader(readerIO);
         this.writer = session.writer();
         output = new Output(writer);
-    }
-
-    public void setting(String category, Level level)
-        throws AllWordsWereUsedException, NotAvailableException, StorageNotInitializedException {
-        if (gameState != GameState.RUNNING) {
-            this.category = session.wordsStorage().getCategoryByName(category);
-            this.level = level;
-            try {
-                if (session.history().passedCategories().contains(category)
-                    || session.history().getPassedLevelsForCategory(category).contains(level)) {
-                    throw new AllWordsWereUsedException(dictionary().exception(StaticVariables.ALL_WORDS_WERE_USED()));
-                }
-                word = this.category.getRandomWordByLevel(level, session.history().passedWords());
-            } catch (NoWordsWereFoundException e) {
-                output.exception(e.getMessage());
-                MainCore.instance().start();
-            }
-            mistakeStep = StaticVariables.getMistakesStep(level);
-            mistakesLeft = StaticVariables.MAX_MISTAKES() / mistakeStep;
-            gameState = GameState.READY;
-        } else {
-            throw new NotAvailableException(dictionary().exception(StaticVariables.GAME_IS_ALREADY_RUNNING()));
-        }
-    }
-
-    public void setting(String category)
-        throws AllWordsWereUsedException, NotAvailableException, StorageNotInitializedException {
-        if (gameState != GameState.RUNNING) {
-            this.category = session.wordsStorage().getCategoryByName(category);
-            try {
-                if (session.history().passedCategories().contains(category)) {
-                    throw new AllWordsWereUsedException(dictionary().exception(StaticVariables.ALL_WORDS_WERE_USED()));
-                }
-                this.level = this.category.getRandomLevel(session.history().getPassedLevelsForCategory(category));
-                if (session.history().getPassedLevelsForCategory(category).contains(level)) {
-                    throw new AllWordsWereUsedException(dictionary().exception(StaticVariables.ALL_WORDS_WERE_USED()));
-                }
-                word = this.category.getRandomWordByLevel(level, session.history().passedWords());
-            } catch (NoWordsWereFoundException e) {
-                output.exception(e.getMessage());
-                MainCore.instance().start();
-            }
-
-            mistakeStep = StaticVariables.getMistakesStep(level);
-            mistakesLeft = StaticVariables.MAX_MISTAKES() / mistakeStep;
-            gameState = GameState.READY;
-        } else {
-            throw new NotAvailableException(dictionary().exception(StaticVariables.GAME_IS_ALREADY_RUNNING()));
-        }
-    }
-
-    public void setting(Level level)
-        throws AllWordsWereUsedException, NotAvailableException, StorageNotInitializedException {
-        setting(session.wordsStorage().getRandomCategory(
-            session.history().passedCategories()
-        ).name(), level);
-    }
-
-    public void setting() throws AllWordsWereUsedException, NotAvailableException, StorageNotInitializedException {
-        setting(session.wordsStorage().getRandomCategory(
-            session.history().passedCategories()
-        ).name());
     }
 
     private void stop(Result result) throws NotAvailableException {
