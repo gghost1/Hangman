@@ -1,7 +1,7 @@
 package backend.academy.words;
 
 import backend.academy.StaticWordsTestVariables;
-import backend.academy.exceptions.StorageNotInitializedException;
+import backend.academy.exception.StorageNotInitializedException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +15,7 @@ public class WordParserTest extends StaticWordsTestVariables {
     }
 
     @Test
-    public void parseNoWordsTest() throws StorageNotInitializedException {
+    public void parseFromFileNoWordsTest() throws StorageNotInitializedException {
         WordsStorage wordsStorage = WordsStorage.instance(EMPTY_CATEGORY_PATH);
 
         assertEquals(EXPECTED1, wordsStorage.catalog());

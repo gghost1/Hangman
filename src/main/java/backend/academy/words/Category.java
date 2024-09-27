@@ -1,14 +1,14 @@
 package backend.academy.words;
 
 import backend.academy.StaticVariables;
-import backend.academy.exceptions.NoWordsWereFoundException;
-import backend.academy.exceptions.NotAvailableException;
+import backend.academy.exception.NoWordsWereFoundException;
+import backend.academy.exception.NotAvailableException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import static backend.academy.gameProcess.ui.staticOutput.LanguageManager.dictionary;
+import static backend.academy.game.process.ui.staticOutput.LanguageManager.dictionary;
 
 public record Category(String name, Map<Level, Map<String, Word>> words) {
 
@@ -16,11 +16,9 @@ public record Category(String name, Map<Level, Map<String, Word>> words) {
         words.get(level).put(word.name(), word);
     }
 
-
     public Map<String, Word> getWordsByLevel(Level level) {
         return words.get(level);
     }
-
 
     public Word getWordByLevelAndName(Level level, String name) {
         return getWordsByLevel(level).get(name);

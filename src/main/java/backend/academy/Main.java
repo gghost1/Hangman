@@ -1,9 +1,9 @@
 package backend.academy;
 
-import backend.academy.exceptions.NotAvailableException;
-import backend.academy.exceptions.ProgramExit;
-import backend.academy.exceptions.StorageNotInitializedException;
-import backend.academy.gameProcess.MainCore;
+import backend.academy.exception.NotAvailableException;
+import backend.academy.exception.ProgramExit;
+import backend.academy.exception.StorageNotInitializedException;
+import backend.academy.game.process.MainCore;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
