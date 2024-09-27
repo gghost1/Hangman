@@ -1,8 +1,8 @@
 package backend.academy.words;
 
-import backend.academy.exceptions.NotAvailableException;
+import backend.academy.exception.NotAvailableException;
 import backend.academy.StaticWordsTestVariables;
-import backend.academy.exceptions.NoWordsWereFoundException;
+import backend.academy.exception.NoWordsWereFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import java.util.HashSet;

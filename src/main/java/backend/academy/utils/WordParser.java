@@ -24,7 +24,7 @@ public class WordParser {
         this.path = path;
     }
 
-    public Map<String, Category> parse() throws IOException {
+    public Map<String, Category> parseFromFile() throws IOException {
         BufferedReader reader = new BufferedReader(
                 new FileReader(path, StandardCharsets.UTF_8));
         Map<String, Category> catalog = new HashMap<>();
@@ -50,6 +50,7 @@ public class WordParser {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+        reader.close();
         return catalog;
     }
 

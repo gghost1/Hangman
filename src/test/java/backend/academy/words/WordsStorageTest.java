@@ -1,8 +1,8 @@
 package backend.academy.words;
 
-import backend.academy.exceptions.NotAvailableException;
+import backend.academy.exception.NotAvailableException;
 import backend.academy.StaticWordsTestVariables;
-import backend.academy.exceptions.StorageNotInitializedException;
+import backend.academy.exception.StorageNotInitializedException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
