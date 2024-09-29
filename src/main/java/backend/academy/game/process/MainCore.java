@@ -16,11 +16,11 @@ import static backend.academy.game.process.ui.staticOutput.LanguageManager.dicti
 public class MainCore {
 
     private static MainCore instance;
-    private MainCoreDisplay display;
-    private IO io;
+    private final MainCoreDisplay display;
+    private final IO io;
     private final Session session;
 
-    public static synchronized MainCore instance(IO io, String language) throws StorageNotInitializedException {
+    public static MainCore instance(IO io, String language) throws StorageNotInitializedException {
         if (instance == null) {
             instance = new MainCore(io, language);
         }

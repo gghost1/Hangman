@@ -15,7 +15,6 @@ public class RuGameOutput implements GameOutput {
     private final HashMap<String, String> EXCEPTIONS;
     private final HashMap<String, String> PHRASES;
 
-
     public RuGameOutput() {
         ALPHABET = new HashSet<>();
         for (char c = 'а'; c <= 'я'; c++) {

@@ -7,7 +7,6 @@ import static backend.academy.game.process.ui.staticOutput.LanguageManager.dicti
 
 public class MainCoreDisplay extends Output {
 
-
     public MainCoreDisplay(Writer writer) {
         super(writer);
     }
