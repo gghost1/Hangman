@@ -15,7 +15,6 @@ public class SessionDisplay extends Output {
         this.categories = categories;
     }
 
-
     public void chooseCategory() throws NotAvailableException {
         clear();
         writeOutput(dictionary().phrase("Choose category: "));

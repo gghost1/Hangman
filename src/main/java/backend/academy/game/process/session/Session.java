@@ -24,15 +24,14 @@ import static backend.academy.game.process.ui.staticOutput.LanguageManager.dicti
 public class Session {
 
     private final SessionDisplay sessionDisplay;
-    private String dataSourcePath;
+    private final String dataSourcePath;
     private WordsStorage wordsStorage;
-    private SessionState state;
+    private final SessionState state;
 
-    private SessionHistory history;
+    private final SessionHistory history;
     private final CustomReader customReader;
-    @Getter
+
     private final Reader readerIO;
-    @Getter
     private final Writer writer;
 
     public Session(String dataSourcePath, Writer writer, Reader reader) throws StorageNotInitializedException {
@@ -128,10 +127,6 @@ public class Session {
             }
         }
         return level;
-    }
-
-    public void displayHistory() {
-
     }
 
 }

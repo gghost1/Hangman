@@ -17,7 +17,7 @@ import static backend.academy.game.process.ui.staticOutput.LanguageManager.dicti
 @Getter
 public class Settings {
 
-    protected Session session;
+    protected final Session session;
     protected GameState gameState;
 
     protected Level level;

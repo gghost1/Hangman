@@ -32,19 +32,12 @@ public class SessionHistory {
         passedLevelsOfCategories.put(Level.HARD, new ArrayList<>());
     }
 
-    public List<String> addPassedCategory(String category) {
-        passedCategories.add(category);
-        return passedCategories;
-    }
-
-    public HashMap<Level, List<String>> addPassedLevelForCategory(String category, Level level) {
+    public void addPassedLevelForCategory(String category, Level level) {
         passedLevelsOfCategories.get(level).add(category);
-        return passedLevelsOfCategories;
     }
 
-    public HashSet<String> addPassedWord(String word) {
+    public void addPassedWord(String word) {
         passedWords.add(word);
-        return passedWords;
     }
 
     public Set<Level> getPassedLevelsForCategory(String category) {
@@ -54,9 +47,8 @@ public class SessionHistory {
             .collect(Collectors.toSet());
     }
 
-    public List<Pair<Result, Word>> addGameResult(Result result, Word word) {
+    public void addGameResult(Result result, Word word) {
         results.add(Pair.of(result, word));
-        return results;
     }
 
 }

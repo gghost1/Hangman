@@ -47,13 +47,13 @@ public class WordsStorageTest extends StaticWordsTestVariables {
     @Test
     public void getRandomCategoryTest() throws StorageNotInitializedException {
         WordsStorage storage = WordsStorage.instance(FULL_FILED_CATEGORY_PATH);
-        Category actyal = storage.getRandomCategory(new ArrayList<>());
+        Category actual = storage.getRandomCategory(new ArrayList<>());
 
-        assertEquals(EXPECTED2.get(actyal.name()), actyal);
-        Set<String> actyalCategories = new HashSet<>();
+        assertEquals(EXPECTED2.get(actual.name()), actual);
+        Set<String> actualCategories = new HashSet<>();
         for (int i = 0; i < 20; i++) {
-            actyalCategories.add(storage.getRandomCategory(new ArrayList<>()).name());
+            actualCategories.add(storage.getRandomCategory(new ArrayList<>()).name());
         }
-        assertNotEquals(actyalCategories.size(), 1);
+        assertNotEquals(actualCategories.size(), 1);
     }
 }
